@@ -1,6 +1,5 @@
 package com.leadal.netdisk.common.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -40,8 +39,11 @@ public class Result<T> implements Serializable {
 	 * 返回数据对象 data
 	 */
 	@ApiModelProperty(value = "返回数据对象")
-	private T result;
+	private T data;
 
+	/**
+	 * 总数
+	 */
 	@ApiModelProperty(value = "总数")
 	private Integer total;
 
@@ -82,7 +84,7 @@ public class Result<T> implements Serializable {
 		Result<Object> r = new Result<Object>();
 		r.setSuccess(true);
 		r.setCode(200);
-		r.setResult(data);
+		r.setData(data);
 		return r;
 	}
 
@@ -98,7 +100,7 @@ public class Result<T> implements Serializable {
 		Result<T> r = new Result<T>();
 		r.setSuccess(true);
 		r.setCode(200);
-		r.setResult(data);
+		r.setData(data);
 		return r;
 	}
 
@@ -106,7 +108,7 @@ public class Result<T> implements Serializable {
 		Result<T> r = new Result<T>();
 		r.setSuccess(true);
 		r.setCode(200);
-		r.setResult(data);
+		r.setData(data);
 		r.setTotal(total);
 		return r;
 	}
@@ -116,7 +118,7 @@ public class Result<T> implements Serializable {
 		r.setSuccess(true);
 		r.setCode(200);
 		r.setMessage(msg);
-		r.setResult(data);
+		r.setData(data);
 		return r;
 	}
 
@@ -125,7 +127,7 @@ public class Result<T> implements Serializable {
 		r.setSuccess(false);
 		r.setCode(500);
 		r.setMessage(msg);
-		r.setResult(data);
+		r.setData(data);
 		return r;
 	}
 
@@ -147,8 +149,5 @@ public class Result<T> implements Serializable {
 		this.success = false;
 		return this;
 	}
-
-	@JsonIgnore
-	private String onlTable;
 
 }

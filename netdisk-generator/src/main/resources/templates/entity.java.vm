@@ -24,7 +24,6 @@ import lombok.experimental.Accessors;
  * @since ${date}
  */
 #if(${entityLombokModel})
-@Builder
 @Getter
 @Setter
 @NoArgsConstructor
@@ -66,7 +65,8 @@ public class ${entity} {
     && !${field.propertyName.equals("createTime")}
     && !${field.propertyName.equals("updateBy")}
     && !${field.propertyName.equals("updateTime")}
-    && !${field.propertyName.equals("remark")})
+    && !${field.propertyName.equals("remark")}
+    && !${field.propertyName.equals("id")})
     @ApiModelProperty("${field.comment}")
     #end
   #else
@@ -76,7 +76,8 @@ public class ${entity} {
     && !${field.propertyName.equals("createTime")}
     && !${field.propertyName.equals("updateBy")}
     && !${field.propertyName.equals("updateTime")}
-    && !${field.propertyName.equals("remark")})
+    && !${field.propertyName.equals("remark")}
+    && !${field.propertyName.equals("id")})
     /**
      * ${field.comment}
      */
@@ -118,7 +119,8 @@ public class ${entity} {
 && !${field.propertyName.equals("createTime")}
 && !${field.propertyName.equals("updateBy")}
 && !${field.propertyName.equals("updateTime")}
-&& !${field.propertyName.equals("remark")})
+&& !${field.propertyName.equals("remark")}
+&& !${field.propertyName.equals("id")})
     private ${field.propertyType} ${field.propertyName};
 #end
 #end

@@ -1,6 +1,6 @@
 package com.leadal.netdisk.personal.service;
 
-import com.leadal.netdisk.personal.model.entity.Personal;
+import com.leadal.netdisk.personal.model.Personal;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**

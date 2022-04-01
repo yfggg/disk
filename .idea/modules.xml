@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/netdisk-admin/netdisk-admin.iml" filepath="$PROJECT_DIR$/netdisk-admin/netdisk-admin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/netdisk-boot/netdisk-boot.iml" filepath="$PROJECT_DIR$/netdisk-boot/netdisk-boot.iml" />
       <module fileurl="file://$PROJECT_DIR$/netdisk-common/netdisk-common.iml" filepath="$PROJECT_DIR$/netdisk-common/netdisk-common.iml" />
       <module fileurl="file://$PROJECT_DIR$/netdisk-disk/netdisk-disk.iml" filepath="$PROJECT_DIR$/netdisk-disk/netdisk-disk.iml" />
       <module fileurl="file://$PROJECT_DIR$/netdisk-generator/netdisk-generator.iml" filepath="$PROJECT_DIR$/netdisk-generator/netdisk-generator.iml" />

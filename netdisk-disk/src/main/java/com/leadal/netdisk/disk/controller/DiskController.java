@@ -1,6 +1,7 @@
 package com.leadal.netdisk.disk.controller;
 
 
+import com.leadal.netdisk.common.model.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -24,33 +25,38 @@ public class DiskController {
 
     @ApiOperation(value="分页查询")
     @GetMapping(value = "/queryPage")
-    public void queryPage(@RequestParam(name="pageNo", defaultValue="1") Integer pageNo,
+    public Result<?> queryPage(@RequestParam(name="pageNo", defaultValue="1") Integer pageNo,
                           @RequestParam(name="pageSize", defaultValue="10") Integer pageSize) {
 
+        return Result.ok();
     }
 
     @ApiOperation(value="新增")
     @PostMapping(value = "/insert")
-    public void insert() {
+    public Result<?> insert() {
 
+        return Result.ok();
     }
 
     @ApiOperation(value="更新")
-    @PostMapping(value = "/updateById")
-    public void updateById(@RequestBody String id) {
+    @PutMapping(value = "/updateById")
+    public Result<?> updateById(@RequestBody String id) {
 
+        return Result.ok();
     }
 
     @ApiOperation(value="详情")
     @GetMapping(value = "/detailsById")
-    public void detailsById(String id) {
+    public Result<?> detailsById(String id) {
 
+        return Result.ok();
     }
 
     @ApiOperation(value="逻辑删除")
-    @PostMapping(value = "/deleteById")
-    public void deleteById(@RequestBody String id) {
+    @DeleteMapping(value = "/deleteById")
+    public Result<?> deleteById(@RequestBody String id) {
 
+        return Result.ok();
     }
 
 }

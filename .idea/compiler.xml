@@ -12,16 +12,29 @@
           <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct/1.4.2.Final/mapstruct-1.4.2.Final.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.10/lombok-1.18.10.jar" />
         </processorPath>
-        <module name="netdisk-disk" />
         <module name="netdisk-personal" />
-        <module name="netdisk-admin" />
         <module name="netdisk-common" />
+        <module name="netdisk-boot" />
         <module name="netdisk-generator" />
+      </profile>
+      <profile name="Annotation profile for netdisk-disk" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.4.2.Final/mapstruct-processor-1.4.2.Final.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct/1.4.2.Final/mapstruct-1.4.2.Final.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.10/lombok-1.18.10.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.4.2.Final/mapstruct-processor-1.4.2.Final.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct/1.4.2.Final/mapstruct-1.4.2.Final.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.10/lombok-1.18.10.jar" />
+        </processorPath>
+        <module name="netdisk-disk" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="disk" target="1.8" />
-      <module name="netdisk-admin" target="1.8" />
+      <module name="netdisk-boot" target="1.8" />
       <module name="netdisk-common" target="1.8" />
       <module name="netdisk-disk" target="1.8" />
       <module name="netdisk-generator" target="1.8" />
@@ -33,7 +46,7 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="disk" options="-parameters" />
-      <module name="netdisk-admin" options="-parameters" />
+      <module name="netdisk-boot" options="-parameters" />
       <module name="netdisk-common" options="-parameters" />
       <module name="netdisk-disk" options="-parameters" />
       <module name="netdisk-generator" options="-parameters" />

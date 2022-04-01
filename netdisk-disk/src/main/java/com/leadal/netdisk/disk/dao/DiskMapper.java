@@ -1,6 +1,6 @@
 package com.leadal.netdisk.disk.dao;
 
-import com.leadal.netdisk.disk.model.entity.Disk;
+import com.leadal.netdisk.disk.model.Disk;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 

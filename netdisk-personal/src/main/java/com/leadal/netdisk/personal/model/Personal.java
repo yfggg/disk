@@ -1,8 +1,6 @@
-package com.leadal.netdisk.personal.model.entity;
+package com.leadal.netdisk.personal.model;
 
 import com.leadal.netdisk.common.model.BaseModel;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import io.swagger.annotations.ApiModel;
@@ -17,7 +15,6 @@ import lombok.*;
  * @author yf
  * @since 2022-04-01
  */
-@Builder
 @Getter
 @Setter
 @NoArgsConstructor
@@ -27,9 +24,6 @@ public class Personal extends BaseModel {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty("ID")
-    @TableId(value = "id", type = IdType.ASSIGN_ID)
-    private String id;
 
     @ApiModelProperty("姓名")
     private String name;

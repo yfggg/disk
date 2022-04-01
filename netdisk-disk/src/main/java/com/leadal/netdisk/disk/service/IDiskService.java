@@ -1,6 +1,6 @@
 package com.leadal.netdisk.disk.service;
 
-import com.leadal.netdisk.disk.model.entity.Disk;
+import com.leadal.netdisk.disk.model.Disk;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**

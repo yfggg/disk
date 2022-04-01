@@ -1,6 +1,6 @@
 package com.leadal.netdisk.disk.service.impl;
 
-import com.leadal.netdisk.disk.model.entity.Disk;
+import com.leadal.netdisk.disk.model.Disk;
 import com.leadal.netdisk.disk.dao.DiskMapper;
 import com.leadal.netdisk.disk.service.IDiskService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;

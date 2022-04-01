@@ -6,7 +6,7 @@
     <modules>
         <module>netdisk-common</module>
         <module>netdisk-personal</module>
-        <module>netdisk-admin</module>
+        <module>netdisk-boot</module>
         <module>netdisk-generator</module>
         <module>netdisk-disk</module>
     </modules>

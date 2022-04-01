@@ -11,5 +11,14 @@
 
     <artifactId>netdisk-common</artifactId>
 
+    <dependencies>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+        
+    </dependencies>
+
 
 </project>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/netdisk-admin/netdisk-admin.iml" filepath="$PROJECT_DIR$/netdisk-admin/netdisk-admin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/netdisk-common/netdisk-common.iml" filepath="$PROJECT_DIR$/netdisk-common/netdisk-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/netdisk-disk/netdisk-disk.iml" filepath="$PROJECT_DIR$/netdisk-disk/netdisk-disk.iml" />
+      <module fileurl="file://$PROJECT_DIR$/netdisk-generator/netdisk-generator.iml" filepath="$PROJECT_DIR$/netdisk-generator/netdisk-generator.iml" />
+      <module fileurl="file://$PROJECT_DIR$/netdisk-personal/netdisk-personal.iml" filepath="$PROJECT_DIR$/netdisk-personal/netdisk-personal.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/netdisk-server.iml" filepath="$PROJECT_DIR$/.idea/netdisk-server.iml" />
+    </modules>
+  </component>
+</project>

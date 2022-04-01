@@ -1,0 +1,5 @@
+com\leadal\netdisk\common\config\mybatis\MyMetaObjectHandler.class
+com\leadal\netdisk\common\model\BaseModel.class
+com\leadal\netdisk\common\model\Result.class
+com\leadal\netdisk\common\mapping\DateMapper.class
+com\leadal\netdisk\common\config\mybatis\MybatisPlusConfig.class

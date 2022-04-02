@@ -9,16 +9,16 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>netdisk-common</artifactId>
+    <artifactId>netdisk-disk-personal</artifactId>
 
     <dependencies>
 
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
+            <groupId>com.leadal.netdisk</groupId>
+            <artifactId>netdisk-common</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
         </dependency>
-        
-    </dependencies>
 
+    </dependencies>
 
 </project>

@@ -5,10 +5,21 @@
 
     <modules>
         <module>netdisk-common</module>
-        <module>netdisk-personal</module>
+        <module>netdisk-disk-personal</module>
         <module>netdisk-boot</module>
         <module>netdisk-generator</module>
         <module>netdisk-disk</module>
+        <module>netdisk-disk-public</module>
+        <module>netdisk-disk-personal</module>
+        <module>netdisk-disk-public</module>
+        <module>netdisk-disk-group</module>
+        <module>netdisk-favorite</module>
+        <module>netdisk-resource</module>
+        <module>netdisk-share</module>
+        <module>netdisk-recyle</module>
+        <module>netdisk-visit</module>
+        <module>netdisk-log</module>
+        <module>netdisk-system</module>
     </modules>
 
     <parent>
@@ -19,7 +30,7 @@
     </parent>
 
     <groupId>com.leadal.netdisk</groupId>
-    <artifactId>netdisk-server</artifactId>
+    <artifactId>leadal-netdisk</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
     <packaging>pom</packaging>

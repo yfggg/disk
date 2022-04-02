@@ -43,37 +43,31 @@ public class ${table.controllerName} {
 #end
 
     @ApiOperation(value="分页查询")
-    @GetMapping(value = "/queryPage")
-    public Result<?> queryPage(@RequestParam(name="pageNo", defaultValue="1") Integer pageNo,
-                          @RequestParam(name="pageSize", defaultValue="10") Integer pageSize) {
+    @GetMapping(value = "/#if(${controllerMappingHyphenStyle})${controllerMappingHyphen}s#end")
+    public Result<?> selectList(
+                                @RequestParam(name="pageNo", defaultValue="1") Integer pageNo,
+                                @RequestParam(name="pageSize", defaultValue="10") Integer pageSize) {
 
         return Result.ok();
     }
 
-    @ApiOperation(value="新增")
-    @PostMapping(value = "/insert")
-    public Result<?> insert() {
-
-        return Result.ok();
-    }
-
-    @ApiOperation(value="更新")
-    @PutMapping(value = "/updateById")
-    public Result<?> updateById(@RequestBody String id) {
+    @ApiOperation(value="新增和更新")
+    @PostMapping(value = "/#if(${controllerMappingHyphenStyle})${controllerMappingHyphen}#end")
+    public Result<?> createAndUpdate() {
 
         return Result.ok();
     }
 
     @ApiOperation(value="详情")
-    @GetMapping(value = "/detailsById")
-    public Result<?> detailsById(String id) {
+    @GetMapping(value = "/#if(${controllerMappingHyphenStyle})${controllerMappingHyphen}#end/{id}")
+    public Result<?> getById(@PathVariable String id) {
 
         return Result.ok();
     }
 
     @ApiOperation(value="逻辑删除")
-    @DeleteMapping(value = "/deleteById")
-    public Result<?> deleteById(@RequestBody String id) {
+    @DeleteMapping(value = "/#if(${controllerMappingHyphenStyle})${controllerMappingHyphen}#end/{id}")
+    public Result<?> deleteById(@PathVariable String id) {
 
         return Result.ok();
     }

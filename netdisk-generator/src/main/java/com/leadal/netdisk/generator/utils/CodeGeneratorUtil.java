@@ -14,12 +14,8 @@ public class CodeGeneratorUtil {
     private static final String PASSWORD = "root";
 
     // TODO
-    private static final String DISK_MODULE_PATH = "D:\\System\\work\\netdisk-server\\netdisk-disk";
-    private static final String DISK_PACKAGE = "com.leadal.netdisk.disk";
-
-    // TODO
-    private static final String PERSONAL_MODULE_PATH = "D:\\System\\work\\netdisk-server\\netdisk-personal";
-    private static final String PERSONAL_PACKAGE = "com.leadal.netdisk.personal";
+    private static final String PERSONAL_MODULE_PATH = "D:\\System\\work\\leadal-netdisk\\netdisk-disk-personal";
+    private static final String PERSONAL_PACKAGE = "com.leadal.netdisk.disk.personal";
 
     private static String moduleType;
 
@@ -31,22 +27,15 @@ public class CodeGeneratorUtil {
                 )
                 .globalConfig((scanner, builder) -> {
                     switch (scanner.apply("请输入模块名称？")) {
-                        case "netdisk-disk" :
-                            builder.outputDir(DISK_MODULE_PATH + "/src/main/java");
-                            moduleType = "disk";
-                            break;
-                        case "netdisk-personal" :
+                        case "netdisk-disk-personal" :
                             builder.outputDir(PERSONAL_MODULE_PATH + "/src/main/java");
-                            moduleType = "personal";
+                            moduleType = "disk-personal";
                             break;
                     }
                 })
                 .packageConfig(builder -> {
                     switch (moduleType) {
-                        case "disk" :
-                            builder.parent(DISK_PACKAGE).entity("model").mapper("dao").xml("dao.xml");
-                            break;
-                        case "personal" :
+                        case "disk-personal" :
                             builder.parent(PERSONAL_PACKAGE).entity("model").mapper("dao").xml("dao.xml");
                             break;
                     }

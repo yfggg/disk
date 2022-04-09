@@ -13,12 +13,8 @@ import java.util.Date;
 
 public class BaseModel implements Serializable {
 
-    /**
-     * 主键
-     */
-    @ApiModelProperty("ID")
     @TableId(value = "id", type = IdType.ASSIGN_UUID)
-    private String id;
+    protected String id;
 
     /**
      * 帐号状态（0正常 1停用）

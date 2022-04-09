@@ -11,5 +11,14 @@
 
     <artifactId>netdisk-resource</artifactId>
 
+    <dependencies>
+
+        <dependency>
+            <groupId>com.leadal.netdisk</groupId>
+            <artifactId>netdisk-common</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
+    </dependencies>
 
 </project>

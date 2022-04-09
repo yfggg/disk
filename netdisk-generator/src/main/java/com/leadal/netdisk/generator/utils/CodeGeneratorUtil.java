@@ -13,9 +13,14 @@ public class CodeGeneratorUtil {
     private static final String USERNAME = "root";
     private static final String PASSWORD = "root";
 
-    // TODO
-    private static final String PERSONAL_MODULE_PATH = "D:\\System\\work\\leadal-netdisk\\netdisk-disk-personal";
-    private static final String PERSONAL_PACKAGE = "com.leadal.netdisk.disk.personal";
+    private static final String PERSONAL_DISK_MODULE_PATH = "D:\\System\\work\\leadal-netdisk\\netdisk-disk-personal";
+    private static final String PERSONAL_DISK_PACKAGE = "com.leadal.netdisk.disk.personal";
+
+    private static final String DISK_MODULE_PATH = "D:\\System\\work\\leadal-netdisk\\netdisk-disk";
+    private static final String DISK_PACKAGE = "com.leadal.netdisk.disk";
+
+    private static final String RESOURCE_MODULE_PATH = "D:\\System\\work\\leadal-netdisk\\netdisk-resource";
+    private static final String RESOURCE_PACKAGE = "com.leadal.netdisk.resource";
 
     private static String moduleType;
 
@@ -28,15 +33,29 @@ public class CodeGeneratorUtil {
                 .globalConfig((scanner, builder) -> {
                     switch (scanner.apply("请输入模块名称？")) {
                         case "netdisk-disk-personal" :
-                            builder.outputDir(PERSONAL_MODULE_PATH + "/src/main/java");
-                            moduleType = "disk-personal";
+                            builder.outputDir(PERSONAL_DISK_MODULE_PATH + "/src/main/java");
+                            moduleType = "netdisk-disk-personal";
+                            break;
+                        case "netdisk-disk" :
+                            builder.outputDir(DISK_MODULE_PATH + "/src/main/java");
+                            moduleType = "netdisk-disk";
+                            break;
+                        case "netdisk-resource" :
+                            builder.outputDir(RESOURCE_MODULE_PATH + "/src/main/java");
+                            moduleType = "netdisk-resource";
                             break;
                     }
                 })
                 .packageConfig(builder -> {
                     switch (moduleType) {
-                        case "disk-personal" :
-                            builder.parent(PERSONAL_PACKAGE).entity("model").mapper("dao").xml("dao.xml");
+                        case "netdisk-disk-personal" :
+                            builder.parent(PERSONAL_DISK_PACKAGE).entity("model").mapper("dao").xml("dao.xml");
+                            break;
+                        case "netdisk-disk" :
+                            builder.parent(DISK_PACKAGE).entity("model").mapper("dao").xml("dao.xml");
+                            break;
+                        case "netdisk-resource" :
+                            builder.parent(RESOURCE_PACKAGE).entity("model").mapper("dao").xml("dao.xml");
                             break;
                     }
                 })
@@ -48,6 +67,7 @@ public class CodeGeneratorUtil {
                         .enableLombok().addTableFills()
                         .build()
                 )
+                .strategyConfig( builder -> builder.addTablePrefix("ndk_"))
                 .templateConfig(builder -> builder
                         .entity("/templates/entity.java")
                         .controller("/templates/controller.java")

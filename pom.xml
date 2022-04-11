@@ -10,8 +10,6 @@
         <module>netdisk-generator</module>
         <module>netdisk-disk</module>
         <module>netdisk-disk-public</module>
-        <module>netdisk-disk-personal</module>
-        <module>netdisk-disk-public</module>
         <module>netdisk-disk-group</module>
         <module>netdisk-favorite</module>
         <module>netdisk-resource</module>

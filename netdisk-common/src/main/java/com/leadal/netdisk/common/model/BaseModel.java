@@ -13,8 +13,7 @@ import java.util.Date;
 
 public class BaseModel implements Serializable {
 
-    @TableId(value = "id", type = IdType.ASSIGN_UUID)
-    protected String id;
+
 
     /**
      * 帐号状态（0正常 1停用）

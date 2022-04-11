@@ -1,4 +1,4 @@
-package com.leadal.netdisk.swagger;
+package com.leadal.netdisk.common.config.swagger;
 
 import io.swagger.annotations.ApiOperation;
 import org.springframework.context.annotation.Bean;

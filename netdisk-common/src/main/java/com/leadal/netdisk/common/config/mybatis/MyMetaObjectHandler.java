@@ -22,7 +22,7 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
     @Override
     public void updateFill(MetaObject metaObject) {
         log.info("start update fill ....");
-        this.setFieldValByName("updataTime", new Date(), metaObject);
+        this.setFieldValByName("updateTime", new Date(), metaObject);
     }
 
 }

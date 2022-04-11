@@ -20,7 +20,7 @@ public class AllFileResults implements Serializable {
 
 
     @ApiModelProperty("级联路径")
-    private List<Folder> path;
+    private List<Folder> parentPath;
 
     @ApiModelProperty("文件夹列表")
     private FileResults fileResults;

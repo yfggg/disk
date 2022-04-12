@@ -19,8 +19,6 @@ public class FolderVO {
     @ApiModelProperty("网盘空间ID")
     private String diskId;
 
-    @ApiModelProperty("文件夹名称")
-    private String name;
 
 
 

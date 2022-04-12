@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.leadal.netdisk.disk.dao.FolderMapper">
+
+    <select id="selectList2" resultType="com.leadal.netdisk.disk.model.Folder">
+        SELECT * FROM ndk_folder, (SELECT getParentList(#{folderId}) AS parent_ids) temp
+        WHERE (FIND_IN_SET( id, temp.parent_ids) or parent_id = #{folderId}) and disk_id = #{diskId}
+        ORDER BY create_time ASC
+    </select>
+
+</mapper>

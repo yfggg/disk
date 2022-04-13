@@ -23,5 +23,7 @@ import java.util.Map;
 @Mapper
 public interface FolderMapper extends BaseMapper<Folder> {
 
-    List<Folder> selectList2(@Param("folderId") String folderId, @Param("diskId") String diskId);
+    List<Folder> queryParentList(@Param("folderId") String folderId, @Param("diskId") String diskId);
+
+    List<Folder> queryChildList(@Param("folderId") String folderId, @Param("diskId") String diskId);
 }

@@ -1,25 +1,21 @@
 package com.leadal.netdisk.disk.personal.controller;
 
 
-import cn.hutool.crypto.digest.DigestUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.leadal.netdisk.common.model.Result;
-import com.leadal.netdisk.common.util.file.FileUploadUtils;
-import com.leadal.netdisk.common.util.file.FileUtils;
 import com.leadal.netdisk.disk.mapping.FileMapping;
 import com.leadal.netdisk.disk.model.File;
 import com.leadal.netdisk.disk.service.IFileService;
 import com.leadal.netdisk.disk.view.FileVO;
+import com.leadal.netdisk.resource.service.IResourceService;
+import com.leadal.netdisk.resource.view.ResourceVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -38,6 +34,9 @@ public class PersonalFileController {
 
     @Resource
     private IFileService fileService;
+
+    @Resource
+    private IResourceService resourceService;
 
 
     /**
@@ -91,7 +90,63 @@ public class PersonalFileController {
         return Result.OK();
     }
 
+    /**
+     * 上传文件
+     * @param vo
+    diskId 网盘空间ID
+    files 支持多文件
+     * @return
+     */
+    @ApiOperation(value="上传文件")
+    @PostMapping(value = "/upload")
+    public Result<?> upload(ResourceVO vo) {
+        String pathFileName = null;
+        try {
+            pathFileName = resourceService.upload(vo);
+        } catch (NullPointerException e) {
+            return Result.error("请选择一个文件！");
+        }
+        return Result.OK(pathFileName);
+    }
 
+    /**
+     * 下载文件
+     *
+     * @param vo
+    {
+    "diskId": "网盘空间ID",
+    "fileIds": [
+    "文件ID集合"
+    ]
+    }
+     * @param response
+     * @return
+     */
+    @ApiOperation(value="下载文件")
+    @PostMapping(value = "/download")
+    public Result<?> download(@RequestBody ResourceVO vo, HttpServletResponse response) {
+
+        return Result.OK();
+    }
+
+    /**
+     * 删除文件
+     *
+     * @param vo
+    {
+    "diskId": "网盘空间ID",
+    "fileIds": [
+    "文件ID集合"
+    ]
+    }
+     * @return
+     */
+    @ApiOperation(value="删除文件")
+    @DeleteMapping(value = "/delete")
+    public Result<?> delete(@RequestBody ResourceVO vo) {
+        // TODO 根据 fileIds 更新 resource 表中 del_flag 的数据
+        return Result.OK();
+    }
 
 
 

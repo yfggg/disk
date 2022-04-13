@@ -12,6 +12,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -31,7 +34,25 @@ public class PersonalFolderContoller {
     @Resource
     private IFolderService folderService;
 
-    // todo 文件夹列表
+    /**
+     * 文件夹列表
+     *
+     * @param vo
+     *
+      diskId 网盘空间ID
+      id 文件夹id 文件列表(进入文件夹）
+     *
+     * @return
+     */
+    @ApiOperation(value="文件夹列表")
+    @GetMapping(value = "/query")
+    public Result<?> query(FolderVO vo) {
+        String diskId = vo.getDiskId();
+        String folderId = vo.getId();
+        List<Folder> folderTree = folderService.queryChildList(folderId, diskId);
+
+        return Result.OK(folderTree);
+    }
 
     /**
      * 新建文件夹

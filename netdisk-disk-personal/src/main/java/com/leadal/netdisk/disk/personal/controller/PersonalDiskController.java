@@ -81,14 +81,13 @@ public class PersonalDiskController {
         String diskId = vo.getDiskId();
         String folderId = vo.getId();
 
-        List<Folder> folderTree = folderService.selectList(folderId, diskId);
+        List<Folder> folderTree = folderService.queryParentList(folderId, diskId);
         List<Folder> folders = folderTree.stream().filter(folder ->
                 folder.getParentId().equals(folderId)).collect(Collectors.toList());
-        // 取出级联路径
+
         List<Folder> parentPath = folderTree.stream().filter(folder ->
                 !folder.getParentId().equals(folderId)).collect(Collectors.toList());
 
-        // 查询级联路径下的文件
         QueryWrapper<File> fileQueryWrapper = new QueryWrapper<>();
         fileQueryWrapper
                 .eq("disk_id", diskId)

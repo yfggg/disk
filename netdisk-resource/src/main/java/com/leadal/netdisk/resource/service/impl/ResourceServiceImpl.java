@@ -1,17 +1,21 @@
 package com.leadal.netdisk.resource.service.impl;
 
 import cn.hutool.crypto.digest.DigestUtil;
+import com.leadal.netdisk.common.model.Result;
+import com.leadal.netdisk.common.util.file.FileUploadUtils;
 import com.leadal.netdisk.disk.service.IFileService;
 import com.leadal.netdisk.resource.model.Resource;
 import com.leadal.netdisk.resource.dao.ResourceMapper;
 import com.leadal.netdisk.resource.service.IResourceService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.leadal.netdisk.resource.view.ResourceVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 /**
  * <p>
@@ -26,6 +30,21 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource> i
 
     @javax.annotation.Resource
     private IFileService fileService;
+
+    @Override
+    public String upload(ResourceVO vo) {
+        List<MultipartFile> files = vo.getFiles();
+        for (MultipartFile file : files) {
+            try {
+                this.save(file);
+                // todo 如果表中不存在 就进行上传服务器
+                return FileUploadUtils.upload(file);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
 
     @Override
     @Transactional(rollbackFor = RuntimeException.class)

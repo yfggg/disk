@@ -23,7 +23,12 @@ import java.util.Map;
 public class FolderServiceImpl extends ServiceImpl<FolderMapper, Folder> implements IFolderService {
 
     @Override
-    public List<Folder> selectList(String folderId, String diskId) {
-        return this.baseMapper.selectList2(folderId, diskId);
+    public List<Folder> queryParentList(String folderId, String diskId) {
+        return this.baseMapper.queryParentList(folderId, diskId);
+    }
+
+    @Override
+    public List<Folder> queryChildList(String folderId, String diskId) {
+        return this.baseMapper.queryChildList(folderId, diskId);
     }
 }

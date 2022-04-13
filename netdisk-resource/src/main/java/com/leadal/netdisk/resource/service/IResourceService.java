@@ -2,6 +2,7 @@ package com.leadal.netdisk.resource.service;
 
 import com.leadal.netdisk.resource.model.Resource;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.leadal.netdisk.resource.view.ResourceVO;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -17,4 +18,6 @@ import java.io.IOException;
 public interface IResourceService extends IService<Resource> {
 
     boolean save(MultipartFile file) throws IOException;
+
+    String upload(ResourceVO vo);
 }

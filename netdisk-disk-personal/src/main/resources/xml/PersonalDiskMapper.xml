@@ -2,45 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.leadal.netdisk.disk.personal.dao.PersonalDiskMapper">
 
-<!--    <resultMap id="getAllFiles" type="com.leadal.netdisk.disk.model.AllFileResults">-->
-<!--        <collection property="files" ofType="com.leadal.netdisk.disk.model.File">-->
-<!--            <result property="name" column="name" jdbcType="VARCHAR"/>-->
-<!--        </collection>-->
-<!--    </resultMap>-->
-
-<!--    <select id="selectPageList" resultMap="getAllFiles">-->
-<!--        SELECT-->
-<!--        file.name, file.update_time, file.size, file.folder_id FROM `ndk_personal_disk` pdisk-->
-<!--        LEFT JOIN-->
-<!--        ndk_file file ON file.disk_id = pdisk.disk_id-->
-<!--        <where>-->
-<!--            file.del_flag = '0'-->
-<!--        </where>-->
-<!--        ORDER BY-->
-<!--        file.update_time DESC-->
-<!--    </select>-->
 
 </mapper>
 
-<!--        SELECT-->
-<!--        file.name file_name,-->
-<!--        file.type file_type,-->
-<!--        file.update_time file_update_time,-->
-<!--        file.size file_size,-->
-<!--        file.folder_id,-->
-<!--        folder.parent_id folder_parent_id,-->
-<!--        folder.name folder_parent_name,-->
-<!--        folder.name folder_name,-->
-<!--        folder.size folder_size,-->
-<!--        folder.update_time folder_update_time-->
-<!--        FROM-->
-<!--        `ndk_personal_disk` pdisk-->
-<!--        LEFT JOIN-->
-<!--        ndk_file file ON file.disk_id = pdisk.disk_id-->
-<!--        LEFT JOIN-->
-<!--        ndk_folder folder ON folder.disk_id = pdisk.disk_id-->
-<!--        and file.folder_id = folder.id-->
-<!--        and file.folder_id is not null-->
-<!--        &#45;&#45; LIMIT 3 OFFSET 0-->
+
 
 

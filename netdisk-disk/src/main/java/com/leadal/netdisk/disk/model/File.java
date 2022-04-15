@@ -1,14 +1,17 @@
 package com.leadal.netdisk.disk.model;
 
+import cn.hutool.core.util.IdUtil;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.leadal.netdisk.common.enums.FileKind;
 import com.leadal.netdisk.common.model.BaseModel;
 import com.baomidou.mybatisplus.annotation.TableName;
 
-import com.leadal.netdisk.disk.enums.FileKind;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
+
+import java.util.Date;
 
 /**
  * <p>
@@ -55,10 +58,22 @@ public class File extends BaseModel {
     private FileKind kind;
 
 
+    public File(String id, String diskId, String folderId, String name, Long size, String type, FileKind kind, String resourceId) {
+        super();
+        this.id = id;
+        this.diskId = diskId;
+        this.folderId = folderId;
+        this.name = name;
+        this.size = size;
+        this.type = type;
+        this.kind = kind;
+        this.resourceId = resourceId;
+    }
 
-
-
-
+    public File(String delFlag) {
+        super();
+        this.delFlag = delFlag;
+    }
 
 
 

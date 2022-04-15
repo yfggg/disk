@@ -17,4 +17,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements IFileService {
 
+    @Override
+    public boolean conditionSave(File file, String md5) {
+        int result = this.baseMapper.conditionInsert(file, md5);
+        if(1 == result) {
+            return true;
+        }
+        return false;
+    }
 }

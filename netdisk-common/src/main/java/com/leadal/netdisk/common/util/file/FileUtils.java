@@ -1,6 +1,7 @@
 package com.leadal.netdisk.common.util.file;
 
 import lombok.Getter;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -8,8 +9,7 @@ import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
@@ -28,9 +28,8 @@ public class FileUtils {
      */
     @Getter
     private static String defaultBaseDir;
-    @Value("${file.profile}")
-    public void setProfile(String profile) { defaultBaseDir = profile; }
-
+    @Value("${spring.servlet.multipart.location}")
+    public void setLocation(String location) { defaultBaseDir = location; }
 
     /**
      * 删除文件
@@ -142,5 +141,43 @@ public class FileUtils {
         String encode = URLEncoder.encode(s, StandardCharsets.UTF_8.toString());
         return encode.replaceAll("\\+", "%20");
     }
+
+    /**
+     * 输出指定文件的byte数组
+     *
+     * @param filePath 文件路径
+     * @param os 输出流
+     * @return
+     */
+    public static void writeBytes(String filePath, OutputStream os) throws IOException
+    {
+        FileInputStream fis = null;
+        try
+        {
+            File file = new File(filePath);
+            if (!file.exists())
+            {
+                throw new FileNotFoundException(filePath);
+            }
+            fis = new FileInputStream(file);
+            byte[] b = new byte[1024];
+            int length;
+            while ((length = fis.read(b)) > 0)
+            {
+                os.write(b, 0, length);
+            }
+        }
+        catch (IOException e)
+        {
+            throw e;
+        }
+        finally
+        {
+            IOUtils.close(os);
+            IOUtils.close(fis);
+        }
+    }
+
+
 
 }

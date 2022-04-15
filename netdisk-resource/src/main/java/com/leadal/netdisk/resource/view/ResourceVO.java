@@ -14,11 +14,16 @@ public class ResourceVO {
     @ApiModelProperty("网盘空间ID")
     private String diskId;
 
-    @ApiModelProperty("上传文件集合")
-    List<MultipartFile> files;
+    @ApiModelProperty("文件夹ID集合")
+    private List<String> folderIds;
 
     @ApiModelProperty("文件ID集合")
     List<String> fileIds;
+
+    @ApiModelProperty("上传文件集合")
+    List<MultipartFile> files;
+
+
 
 
 

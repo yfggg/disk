@@ -1,4 +1,4 @@
-package com.leadal.netdisk.disk.enums;
+package com.leadal.netdisk.common.enums;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -11,11 +11,11 @@ import java.util.Map;
 public enum FileKind {
 
     // 顺序必须从0开始
-    DOCUMEN("文档", "0"),
-    PICTURE("图片", "1"),
+    DOCUMENT("文档", "0"),
+    IMAGE("图片", "1"),
     VIDEO("视频", "2"),
     AUDIO("音频", "3"),
-    RAR("压缩文件", "4");
+    COMPRESSION("压缩", "4");
 
     @JsonValue
     private String value;

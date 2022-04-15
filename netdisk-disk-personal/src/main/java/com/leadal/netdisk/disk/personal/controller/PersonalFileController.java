@@ -1,21 +1,28 @@
 package com.leadal.netdisk.disk.personal.controller;
 
 
+import cn.hutool.core.util.IdUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.leadal.netdisk.common.exception.InvalidExtensionException;
 import com.leadal.netdisk.common.model.Result;
+import com.leadal.netdisk.common.util.file.FileUploadUtils;
 import com.leadal.netdisk.disk.mapping.FileMapping;
 import com.leadal.netdisk.disk.model.File;
 import com.leadal.netdisk.disk.service.IFileService;
 import com.leadal.netdisk.disk.view.FileVO;
+import com.leadal.netdisk.common.model.FileURL;
 import com.leadal.netdisk.resource.service.IResourceService;
+import com.leadal.netdisk.resource.view.RsDownloadVO;
 import com.leadal.netdisk.resource.view.ResourceVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -86,47 +93,64 @@ public class PersonalFileController {
     @ApiOperation(value="复制文件")
     @PostMapping(value = "/copy")
     public Result<?> copy(@RequestBody List<File> files) {
-        fileService.saveBatch(files);
+        boolean result = fileService.saveBatch(files);
+        if(!result) { return Result.error("复制文件失败！"); }
         return Result.OK();
     }
 
     /**
      * 上传文件
+     *
      * @param vo
-    diskId 网盘空间ID
-    files 支持多文件
+        diskId 网盘空间ID
+        files 上传文件集合 支持多文件
+        folderIds 文件夹ID集合 支持多文件夹
      * @return
      */
     @ApiOperation(value="上传文件")
     @PostMapping(value = "/upload")
     public Result<?> upload(ResourceVO vo) {
-        String pathFileName = null;
+        List<MultipartFile> files = null;
         try {
-            pathFileName = resourceService.upload(vo);
+            files = vo.getFiles();
+            for (MultipartFile file : files) {
+                FileURL fileURL = new FileURL(file, IdUtil.simpleUUID());
+                boolean result = resourceService.transactionalSave(fileURL, vo);
+                // 判断文件是否需要上传服务器
+                if(result) {
+                    FileUploadUtils.upload(fileURL);
+                }
+            }
         } catch (NullPointerException e) {
-            return Result.error("请选择一个文件！");
+            e.printStackTrace();
+            if(null == files) {
+                return Result.error("请选择一个文件！");
+            }
+        } catch (InvalidExtensionException e) {
+            e.printStackTrace();
+            return Result.error("不支持." + e.getExtension() + "类型的文件上传！");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        return Result.OK(pathFileName);
+        return Result.OK();
     }
 
     /**
      * 下载文件
      *
-     * @param vo
-    {
-    "diskId": "网盘空间ID",
-    "fileIds": [
-    "文件ID集合"
-    ]
-    }
+     [
+        {
+            "realFileName": "文件名 例如 新建文本文档2.txt 记得要带后缀",
+            "resouseId": "服务器资源ID"
+        }
+     ]
      * @param response
      * @return
      */
     @ApiOperation(value="下载文件")
-    @PostMapping(value = "/download")
-    public Result<?> download(@RequestBody ResourceVO vo, HttpServletResponse response) {
-
-        return Result.OK();
+    @GetMapping(value = "/download")
+    public void download(String resouseId, String realFileName, HttpServletResponse response) {
+        resourceService.download(resouseId, realFileName, response);
     }
 
     /**
@@ -141,10 +165,17 @@ public class PersonalFileController {
     }
      * @return
      */
-    @ApiOperation(value="删除文件")
+    @ApiOperation(value="逻辑删除文件")
     @DeleteMapping(value = "/delete")
     public Result<?> delete(@RequestBody ResourceVO vo) {
-        // TODO 根据 fileIds 更新 resource 表中 del_flag 的数据
+        List<String> fileIds = vo.getFileIds();
+        QueryWrapper<File> fileQueryWrapper = new QueryWrapper<>();
+        fileQueryWrapper
+                .in("id", fileIds)
+                .eq("del_flag", "0");
+        File file = new File("1");
+        boolean result = fileService.update(file, fileQueryWrapper);
+        if(!result) { return Result.error("复制文件失败！"); }
         return Result.OK();
     }
 

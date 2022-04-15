@@ -1,5 +1,6 @@
 package com.leadal.netdisk.generator.utils;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.generator.FastAutoGenerator;
 
 import java.util.Arrays;
@@ -63,7 +64,7 @@ public class CodeGeneratorUtil {
                         .controllerBuilder()
                         .enableRestStyle()
                         .enableHyphenStyle()
-                        .entityBuilder()
+                        .entityBuilder().idType(IdType.ASSIGN_UUID)
                         .enableLombok().addTableFills()
                         .build()
                 )

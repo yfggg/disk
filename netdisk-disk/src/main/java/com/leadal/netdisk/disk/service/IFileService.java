@@ -13,4 +13,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IFileService extends IService<File> {
 
+    boolean conditionSave(File file, String md5);
 }

@@ -1,7 +1,5 @@
 package com.leadal.netdisk.disk.view;
 
-import com.leadal.netdisk.disk.enums.FileKind;
-import com.leadal.netdisk.disk.model.File;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

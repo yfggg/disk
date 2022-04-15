@@ -65,8 +65,7 @@ public class ${entity} {
     && !${field.propertyName.equals("createTime")}
     && !${field.propertyName.equals("updateBy")}
     && !${field.propertyName.equals("updateTime")}
-    && !${field.propertyName.equals("remark")}
-    && !${field.propertyName.equals("id")})
+    && !${field.propertyName.equals("remark")})
     @ApiModelProperty("${field.comment}")
     #end
   #else
@@ -76,8 +75,7 @@ public class ${entity} {
     && !${field.propertyName.equals("createTime")}
     && !${field.propertyName.equals("updateBy")}
     && !${field.propertyName.equals("updateTime")}
-    && !${field.propertyName.equals("remark")}
-    && !${field.propertyName.equals("id")})
+    && !${field.propertyName.equals("remark")})
     /**
      * ${field.comment}
      */
@@ -119,8 +117,7 @@ public class ${entity} {
 && !${field.propertyName.equals("createTime")}
 && !${field.propertyName.equals("updateBy")}
 && !${field.propertyName.equals("updateTime")}
-&& !${field.propertyName.equals("remark")}
-&& !${field.propertyName.equals("id")})
+&& !${field.propertyName.equals("remark")})
     private ${field.propertyType} ${field.propertyName};
 #end
 #end

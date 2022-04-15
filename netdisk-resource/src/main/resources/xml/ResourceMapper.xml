@@ -2,11 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.leadal.netdisk.resource.dao.ResourceMapper">
 
-    <insert id="insert" parameterType="com.leadal.netdisk.resource.model.Resource">
-        insert into ndk_resource (md5)
-        select #{re.md5} from dual
-        where not exists
-        (select md5 from ndk_resource where md5=#{re.md5})
+    <insert id="conditionInsert" parameterType="com.leadal.netdisk.resource.model.Resource">
+        insert into ndk_resource (id, md5, size, type, create_time)
+        select #{et.id}, #{et.md5}, #{et.size}, #{et.type}, now()
+        from dual where not exists
+        (select md5 from ndk_resource where md5 = #{et.md5})
 	</insert>
+
+
 
 </mapper>

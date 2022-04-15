@@ -1,12 +1,16 @@
 package com.leadal.netdisk.resource.model;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.leadal.netdisk.common.model.BaseModel;
 import com.baomidou.mybatisplus.annotation.TableName;
-import java.io.Serializable;
-import java.time.LocalDateTime;
+
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
+
+import java.util.Date;
 
 /**
  * <p>
@@ -26,6 +30,9 @@ public class Resource extends BaseModel {
 
     private static final long serialVersionUID = 1L;
 
+    @ApiModelProperty("主键")
+    @TableId(value = "id", type = IdType.ASSIGN_UUID)
+    private String id;
 
     @ApiModelProperty("文件大小")
     private Long size;
@@ -36,12 +43,17 @@ public class Resource extends BaseModel {
     @ApiModelProperty("md5摘要")
     private String md5;
 
+    public Resource(String id, String md5, Long size, String type) {
+        super();
+        this.id = id;
+        this.md5 = md5;
+        this.type = type;
+        this.size = size;
+    }
 
-
-
-
-
-
+    public Date getCreateTime(){
+        return this.createTime;
+    }
 
 
 }

@@ -10,7 +10,6 @@ import com.leadal.netdisk.common.util.file.FileUtils;
 import com.leadal.netdisk.common.util.file.MimeTypeUtils;
 import com.leadal.netdisk.disk.model.File;
 import com.leadal.netdisk.disk.service.IFileService;
-import com.leadal.netdisk.common.model.FileURL;
 import com.leadal.netdisk.resource.model.Resource;
 import com.leadal.netdisk.resource.dao.ResourceMapper;
 import com.leadal.netdisk.resource.service.IResourceService;
@@ -45,9 +44,7 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource> i
 
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
-    public boolean transactionalSave(FileURL fileURL, ResourceVO vo) throws IOException, InvalidExtensionException {
-        MultipartFile mFile = fileURL.getMFile();
-        String id = fileURL.getIdUrl();
+    public boolean transactionalSave(MultipartFile mFile, String id, ResourceVO vo) throws IOException, InvalidExtensionException {
         String md5 = FileUploadUtils.generateMd5(mFile);
         Long size = mFile.getSize();
         String ofName = mFile.getOriginalFilename();

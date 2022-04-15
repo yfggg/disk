@@ -25,5 +25,5 @@ public interface FolderMapper extends BaseMapper<Folder> {
 
     List<Folder> queryParentList(@Param("folderId") String folderId, @Param("diskId") String diskId);
 
-    List<Folder> queryChildList(@Param("folderId") String folderId, @Param("diskId") String diskId);
+//    List<Folder> queryChildList(@Param("folderId") String folderId, @Param("diskId") String diskId);
 }

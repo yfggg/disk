@@ -3,7 +3,6 @@ package com.leadal.netdisk.common.util.file;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.crypto.digest.DigestUtil;
 import com.leadal.netdisk.common.exception.InvalidExtensionException;
-import com.leadal.netdisk.common.model.FileURL;
 import lombok.Getter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -14,7 +13,6 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Date;
 
 /**
  * 文件上传工具类
@@ -47,30 +45,27 @@ public class FileUploadUtils {
     /**
      * 以默认配置进行文件上传
      *
-     * @param fileURL 上传的文件
+     * @param file 上传的文件
      * @return 文件名称
      * @throws Exception
      */
-    public static final String upload(FileURL fileURL) throws IOException, InvalidExtensionException {
-        return upload(defaultBaseDir, fileURL, MimeTypeUtils.DEFAULT_ALLOWED_EXTENSION);
+    public static final String upload(MultipartFile file, String fName) throws IOException, InvalidExtensionException {
+        return upload(defaultBaseDir, file, fName, MimeTypeUtils.DEFAULT_ALLOWED_EXTENSION);
     }
 
     /**
      * 文件上传
      *
      * @param baseDir 相对应用的基目录
-     * @param fileURL 上传的文件
+     * @param file 上传的文件
      * @param allowedExtension 上传文件类型
      * @return 返回上传成功的文件名
      * @throws IOException 比如读写文件出错时
      * @throws InvalidExtensionException 文件校验异常
      */
-    public static final String upload(String baseDir, FileURL fileURL, String[] allowedExtension) throws IOException, InvalidExtensionException {
-        MultipartFile file = fileURL.getMFile();
-        String idPath = fileURL.getIdUrl();
-//        Date creteTimePath = fileURL.getCreateTimeUrl();
+    public static final String upload(String baseDir, MultipartFile file, String fName, String[] allowedExtension) throws IOException, InvalidExtensionException {
         assertAllowed(file, allowedExtension);
-        String fileName = extractFilename(file, idPath);
+        String fileName = extractFilename(file, fName);
         File desc = getAbsoluteFile(baseDir, fileName);
         file.transferTo(desc);
         String pathFileName = getPathFileName(baseDir, fileName);
@@ -83,11 +78,10 @@ public class FileUploadUtils {
      * @param file
      * @return
      */
-    public static final String extractFilename(MultipartFile file, String idPath) {
+    public static final String extractFilename(MultipartFile file, String fName) {
         String extension = getExtension(file);
-//        Date creteTime = null != creteTimePath ? creteTimePath : new Date();
         String dateTimePath = DateUtils.dateTimePath();
-        String uuid = null != idPath ? idPath : IdUtil.simpleUUID();
+        String uuid = null != fName ? fName : IdUtil.simpleUUID();
         String fileName = dateTimePath + "/" + uuid + "." + extension;
         return fileName;
     }

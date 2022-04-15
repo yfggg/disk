@@ -41,7 +41,6 @@ public class PersonalDiskController {
     @Resource
     private IFileService fileService;
 
-
     /**
      *  搜索 同时搜索出文件和文件夹 只从全部文件开始搜索
      *
@@ -49,14 +48,21 @@ public class PersonalDiskController {
      * @return
      */
     @ApiOperation(value="关键字搜索")
-    @GetMapping(value = "/query/{keyword}")
-    public Result<?> keywordQuery(@PathVariable String keyword) {
+    @GetMapping(value = "/query/{diskId}/{keyword}")
+    public Result<?> keywordQuery(@PathVariable String diskId, @PathVariable String keyword) {
         QueryWrapper<Folder> folderQueryWrapper = new QueryWrapper<>();
-        folderQueryWrapper.like("name", keyword);
+        folderQueryWrapper
+                .like("name", keyword)
+                .eq("disk_id", diskId)
+                .eq("del_flag", "0")
+                .orderByAsc("create_time");
         List<Folder> folders = folderService.list(folderQueryWrapper);
 
         QueryWrapper<File> fileQueryWrapper = new QueryWrapper<>();
-        fileQueryWrapper.like("name", keyword);
+        fileQueryWrapper
+                .like("name", keyword)
+                .eq("del_flag", "0")
+                .orderByAsc("create_time");
         List<File> files = fileService.list(fileQueryWrapper);
 
         FileResults fileResults = new FileResults(folders, files);
@@ -92,6 +98,7 @@ public class PersonalDiskController {
         fileQueryWrapper
                 .eq("disk_id", diskId)
                 .eq("folder_id", folderId)
+                .eq("del_flag", "0")
                 .orderByAsc("create_time");
         List<File> files = fileService.list(fileQueryWrapper);
 
@@ -100,8 +107,6 @@ public class PersonalDiskController {
 
         return Result.OK(total, allFileResults);
     }
-
-
 
 
 

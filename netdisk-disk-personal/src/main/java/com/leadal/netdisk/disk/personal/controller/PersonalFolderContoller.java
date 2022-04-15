@@ -49,8 +49,14 @@ public class PersonalFolderContoller {
     public Result<?> query(FolderVO vo) {
         String diskId = vo.getDiskId();
         String folderId = vo.getId();
-        List<Folder> folderTree = folderService.queryChildList(folderId, diskId);
-
+        QueryWrapper<Folder> folderQueryWrapper = new QueryWrapper<>();
+        folderQueryWrapper
+                .eq("parent_id", folderId)
+                .eq("disk_id", diskId)
+                .eq("del_flag", "0")
+                .orderByAsc("create_time");
+        List<Folder> folderTree = folderService.list(folderQueryWrapper);
+//        List<Folder> folderTree = folderService.queryChildList(folderId, diskId);
         return Result.OK(folderTree);
     }
 
@@ -92,7 +98,8 @@ public class PersonalFolderContoller {
         QueryWrapper<Folder> folderQueryWrapper = new QueryWrapper<>();
         folderQueryWrapper
                 .eq("disk_id", diskId)
-                .eq("id", id);
+                .eq("id", id)
+                .eq("del_flag", "0");
         Folder folder = FolderMapping.INSTANCE.toModel(vo);
         boolean result = folderService.update(folder, folderQueryWrapper);
         if(!result) { return Result.error("文件夹重命名失败！"); }

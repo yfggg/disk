@@ -10,9 +10,7 @@ import com.leadal.netdisk.disk.mapping.FileMapping;
 import com.leadal.netdisk.disk.model.File;
 import com.leadal.netdisk.disk.service.IFileService;
 import com.leadal.netdisk.disk.view.FileVO;
-import com.leadal.netdisk.common.model.FileURL;
 import com.leadal.netdisk.resource.service.IResourceService;
-import com.leadal.netdisk.resource.view.RsDownloadVO;
 import com.leadal.netdisk.resource.view.ResourceVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -114,11 +112,11 @@ public class PersonalFileController {
         try {
             files = vo.getFiles();
             for (MultipartFile file : files) {
-                FileURL fileURL = new FileURL(file, IdUtil.simpleUUID());
-                boolean result = resourceService.transactionalSave(fileURL, vo);
+                String id = IdUtil.simpleUUID();
+                boolean result = resourceService.transactionalSave(file, id, vo);
                 // 判断文件是否需要上传服务器
                 if(result) {
-                    FileUploadUtils.upload(fileURL);
+                    FileUploadUtils.upload(file, id);
                 }
             }
         } catch (NullPointerException e) {
@@ -148,8 +146,10 @@ public class PersonalFileController {
      * @return
      */
     @ApiOperation(value="下载文件")
-    @GetMapping(value = "/download")
-    public void download(String resouseId, String realFileName, HttpServletResponse response) {
+    @GetMapping(value = "/download/{resouseId}/{realFileName}")
+    public void download(@PathVariable String resouseId,
+                         @PathVariable String realFileName,
+                         HttpServletResponse response) {
         resourceService.download(resouseId, realFileName, response);
     }
 

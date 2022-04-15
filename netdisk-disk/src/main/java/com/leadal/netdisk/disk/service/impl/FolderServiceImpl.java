@@ -27,8 +27,8 @@ public class FolderServiceImpl extends ServiceImpl<FolderMapper, Folder> impleme
         return this.baseMapper.queryParentList(folderId, diskId);
     }
 
-    @Override
-    public List<Folder> queryChildList(String folderId, String diskId) {
-        return this.baseMapper.queryChildList(folderId, diskId);
-    }
+//    @Override
+//    public List<Folder> queryChildList(String folderId, String diskId) {
+//        return this.baseMapper.queryChildList(folderId, diskId);
+//    }
 }

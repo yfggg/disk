@@ -13,6 +13,9 @@ public class FolderVO {
     @ApiModelProperty(value ="文件夹id")
     private String id;
 
+    @ApiModelProperty(value ="文件夹名称")
+    private String name;
+
     @ApiModelProperty("上级文件夹ID")
     private String parentId;
 

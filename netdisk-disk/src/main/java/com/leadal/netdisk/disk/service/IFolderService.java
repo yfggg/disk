@@ -20,5 +20,5 @@ public interface IFolderService extends IService<Folder> {
 
     List<Folder> queryParentList(String folderId, String diskId);
 
-    List<Folder> queryChildList(String folderId, String diskId);
+//    List<Folder> queryChildList(String folderId, String diskId);
 }

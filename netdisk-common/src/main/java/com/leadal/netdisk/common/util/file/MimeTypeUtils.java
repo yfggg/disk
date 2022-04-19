@@ -1,9 +1,5 @@
 package com.leadal.netdisk.common.util.file;
 
-import com.leadal.netdisk.common.enums.FileKind;
-
-import java.util.Arrays;
-
 /**
  * 媒体类型工具类
  * 
@@ -34,29 +30,6 @@ public class MimeTypeUtils {
             "rar", "zip", "gz", "bz2",
     };
 
-    public static final FileKind getKindByType(String type) {
-        long imageCount = Arrays.stream(MimeTypeUtils.IMAGE_EXTENSION)
-                .filter(imageType -> imageType.equals(type)).count();
-        long documentCount = Arrays.stream(MimeTypeUtils.DOCUMENT_EXTENSION)
-                .filter(documentType -> documentType.equals(type)).count();
-        long videoCount = Arrays.stream(MimeTypeUtils.VIDEO_EXTENSION)
-                .filter(videoType -> videoType.equals(type)).count();
-        long audioCount = Arrays.stream(MimeTypeUtils.AUDIO_EXTENSION)
-                .filter(audioType -> audioType.equals(type)).count();
-        long compressionCount = Arrays.stream(MimeTypeUtils.COMPRESSION_EXTENSION)
-                .filter(compressionType -> compressionType.equals(type)).count();
-        if(1 <= imageCount) {
-            return FileKind.IMAGE;
-        } else if(1 <= documentCount) {
-            return FileKind.DOCUMENT;
-        } else if(1 <= videoCount) {
-            return FileKind.VIDEO;
-        } else if(1 <= audioCount) {
-            return FileKind.AUDIO;
-        } else if(1 <= compressionCount) {
-            return FileKind.COMPRESSION;
-        }
-        return null;
-    }
+
 
 }

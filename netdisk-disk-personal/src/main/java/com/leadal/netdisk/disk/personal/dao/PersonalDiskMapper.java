@@ -1,6 +1,5 @@
 package com.leadal.netdisk.disk.personal.dao;
 
-import com.leadal.netdisk.disk.model.AllFileResults;
 import com.leadal.netdisk.disk.personal.model.PersonalDisk;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
@@ -16,5 +15,4 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface PersonalDiskMapper extends BaseMapper<PersonalDisk> {
 
-    AllFileResults selectPageList();
 }

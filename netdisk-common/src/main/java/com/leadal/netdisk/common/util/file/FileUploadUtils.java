@@ -80,7 +80,7 @@ public class FileUploadUtils {
      */
     public static final String extractFilename(MultipartFile file, String fName) {
         String extension = getExtension(file);
-        String dateTimePath = DateUtils.dateTimePath();
+        String dateTimePath = DateUtils.dateHourPath();
         String uuid = null != fName ? fName : IdUtil.simpleUUID();
         String fileName = dateTimePath + "/" + uuid + "." + extension;
         return fileName;

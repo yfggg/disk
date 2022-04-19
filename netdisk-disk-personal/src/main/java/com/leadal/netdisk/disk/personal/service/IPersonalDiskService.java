@@ -1,6 +1,5 @@
 package com.leadal.netdisk.disk.personal.service;
 
-import com.leadal.netdisk.disk.model.AllFileResults;
 import com.leadal.netdisk.disk.personal.model.PersonalDisk;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -14,5 +13,4 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IPersonalDiskService extends IService<PersonalDisk> {
 
-    AllFileResults selectPageList();
 }

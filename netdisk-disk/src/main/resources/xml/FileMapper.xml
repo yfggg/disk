@@ -2,12 +2,4 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.leadal.netdisk.disk.dao.FileMapper">
 
-    <insert id="conditionInsert" parameterType="com.leadal.netdisk.disk.model.File">
-        INSERT INTO ndk_file (id, disk_id, folder_id,  name, size, type, kind, create_time, resource_id)
-        select #{et.id}, #{et.diskId}, #{et.folderId}, #{et.name}, #{et.size}, #{et.type}, #{et.kind}, now(),
-        (SELECT id FROM `ndk_resource` WHERE md5 = #{md5})
-        from dual where NOT EXISTS
-        (select name, type from ndk_file where name = #{et.name} and type = #{et.type})
-	</insert>
-
 </mapper>

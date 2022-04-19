@@ -1,20 +1,25 @@
 package com.leadal.netdisk.disk.personal.controller;
 
+import cn.hutool.core.date.DateTime;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.leadal.netdisk.common.model.Result;
-import com.leadal.netdisk.disk.mapping.FolderMapping;
-import com.leadal.netdisk.disk.model.Folder;
-import com.leadal.netdisk.disk.service.IFolderService;
+import com.leadal.netdisk.common.util.file.DateUtils;
+import com.leadal.netdisk.disk.enums.TableKind;
+import com.leadal.netdisk.disk.model.File;
+import com.leadal.netdisk.disk.service.IFileService;
 import com.leadal.netdisk.disk.view.FolderVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.websocket.server.PathParam;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 
 /**
@@ -31,78 +36,128 @@ import java.util.Map;
 @RequestMapping("/perdisk/folder")
 public class PersonalFolderContoller {
 
+    private static final String DISK_ID = "1";
+
     @Resource
-    private IFolderService folderService;
+    private IFileService fileService;
 
     /**
      * 文件夹列表
      *
-     * @param vo
-     *
-      diskId 网盘空间ID
-      id 文件夹id 文件列表(进入文件夹）
-     *
+     * @param id "当前-文件夹ID"
      * @return
      */
     @ApiOperation(value="文件夹列表")
     @GetMapping(value = "/query")
-    public Result<?> query(FolderVO vo) {
-        String diskId = vo.getDiskId();
-        String folderId = vo.getId();
-        QueryWrapper<Folder> folderQueryWrapper = new QueryWrapper<>();
-        folderQueryWrapper
-                .eq("parent_id", folderId)
-                .eq("disk_id", diskId)
-                .eq("del_flag", "0")
-                .orderByAsc("create_time");
-        List<Folder> folderTree = folderService.list(folderQueryWrapper);
-//        List<Folder> folderTree = folderService.queryChildList(folderId, diskId);
-        return Result.OK(folderTree);
+    public Result<?> query(String id) {
+
+        QueryWrapper<File> wrapper = new QueryWrapper<>();
+        wrapper
+                .eq("folder_parent_id", id)
+                .eq("table_kind", TableKind.FOLDER)
+                .eq("disk_id", DISK_ID)
+                .eq("del_flag", "0");
+        List<File> list = fileService.list(wrapper);
+
+        return Result.OK(list);
     }
 
     /**
      * 新建文件夹
      *
+     * {
+     *   "id": "当前-文件夹ID",
+     *   "folderParentIds": "当前-上级文件夹ID集",
+     *   "folderName": "文件夹名称"
+     * }
      * @param vo
-    {
-    "diskId": "网盘空间ID",
-    "name": "文件夹名称",
-    "parentId": "上级文件夹ID",
-    }
      * @return
      */
     @ApiOperation(value="新建文件夹")
     @PostMapping(value = "/create")
     public Result<?> create(@RequestBody FolderVO vo) {
-        boolean result = folderService.save(FolderMapping.INSTANCE.toModel(vo));
-        if(!result) { return Result.error("新建文件夹失败！"); }
+
+        String folderParentId = vo.getId();
+        String folderParentIds = vo.getFolderParentIds();
+        String folderName = vo.getFolderName();
+
+        // 文件夹重名
+        QueryWrapper<File> wrapper = new QueryWrapper<>();
+        wrapper
+                .eq("folder_name", folderName)
+                .eq("table_kind", TableKind.FOLDER)
+                .eq("disk_id", DISK_ID)
+                .eq("del_flag", "0");
+        int same = fileService.count(wrapper);
+        if(0 < same) {
+            folderName = new StringBuffer()
+                    .append(folderName)
+                    .append(DateUtils.dateTimePath())
+                    .toString();
+        }
+
+        // 拼接级联路径
+        StringBuffer buffer = new StringBuffer();
+        String parentIdsBuffer;
+        if(StringUtils.isBlank(folderParentIds)) {
+            parentIdsBuffer = buffer
+                    .append(folderParentId)
+                    .toString();
+        }  else {
+            parentIdsBuffer = buffer
+                    .append(folderParentIds)
+                    .append(",")
+                    .append(folderParentId)
+                    .toString();
+        }
+
+        // 插入
+        File folder = new File(
+                DISK_ID,
+                folderName,
+                folderParentId,
+                parentIdsBuffer,
+                TableKind.FOLDER
+        );
+        fileService.save(folder);
+
         return Result.OK();
     }
 
     /**
      * 重命名文件夹
      *
+     * {
+     *   "id": "当前-文件夹ID",
+     *   "folderName": "文件夹名称"
+     * }
      * @param vo
-    {
-    "diskId": "网盘空间ID",
-    "name": "文件夹名称",
-    "id": "文件夹id"
-    }
      * @return
      */
     @ApiOperation(value="重命名文件夹")
     @PutMapping(value = "/rename")
     public Result<?> rename(@RequestBody FolderVO vo) {
-        String diskId = vo.getDiskId();
+
         String id = vo.getId();
-        QueryWrapper<Folder> folderQueryWrapper = new QueryWrapper<>();
-        folderQueryWrapper
-                .eq("disk_id", diskId)
+        String folderName = vo.getFolderName();
+
+        // 文件夹重名
+        QueryWrapper<File> wrapper = new QueryWrapper<>();
+        wrapper
                 .eq("id", id)
+                .eq("folder_name", folderName)
+                .eq("table_kind", TableKind.FOLDER)
+                .eq("disk_id", DISK_ID)
                 .eq("del_flag", "0");
-        Folder folder = FolderMapping.INSTANCE.toModel(vo);
-        boolean result = folderService.update(folder, folderQueryWrapper);
-        if(!result) { return Result.error("文件夹重命名失败！"); }
+
+        int same = fileService.count(wrapper);
+        if(0 < same) {
+            return Result.error("操作失败: 文件夹已经存在! ");
+        }
+
+        // 更新
+        fileService.update(wrapper);
+
         return Result.OK();
     }
 

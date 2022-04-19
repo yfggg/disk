@@ -2,25 +2,24 @@ package com.leadal.netdisk.disk.view;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-import java.util.List;
 
-@Data
-@ApiModel(value="FolderVO对象")
+@Getter
+@Setter
+@ApiModel(value="文件夹视图对象")
 public class FolderVO {
 
-    @ApiModelProperty(value ="文件夹id")
+    @ApiModelProperty("文件夹ID")
     private String id;
 
+    @ApiModelProperty("上级文件夹ID集")
+    private String folderParentIds;
+
     @ApiModelProperty(value ="文件夹名称")
-    private String name;
+    private String folderName;
 
-    @ApiModelProperty("上级文件夹ID")
-    private String parentId;
-
-    @ApiModelProperty("网盘空间ID")
-    private String diskId;
 
 
 

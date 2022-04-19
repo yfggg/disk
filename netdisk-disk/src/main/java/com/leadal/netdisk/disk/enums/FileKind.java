@@ -1,4 +1,4 @@
-package com.leadal.netdisk.common.enums;
+package com.leadal.netdisk.disk.enums;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -15,7 +15,7 @@ public enum FileKind {
     IMAGE("图片", "1"),
     VIDEO("视频", "2"),
     AUDIO("音频", "3"),
-    COMPRESSION("压缩", "4");
+    COMPRESSION("压缩文件", "4");
 
     @JsonValue
     private String value;

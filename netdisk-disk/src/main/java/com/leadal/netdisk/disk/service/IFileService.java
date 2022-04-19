@@ -2,6 +2,9 @@ package com.leadal.netdisk.disk.service;
 
 import com.leadal.netdisk.disk.model.File;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.leadal.netdisk.disk.view.FileVO;
+
+import java.util.List;
 
 /**
  * <p>
@@ -9,9 +12,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * </p>
  *
  * @author yf
- * @since 2022-04-07
+ * @since 2022-04-18
  */
 public interface IFileService extends IService<File> {
 
-    boolean conditionSave(File file, String md5);
+    List<File> moveAndCopyById(String diskId, FileVO vo, boolean needId);
 }

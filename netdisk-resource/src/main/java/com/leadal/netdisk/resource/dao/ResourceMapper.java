@@ -16,5 +16,4 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface ResourceMapper extends BaseMapper<Resource> {
 
-    int conditionInsert(@Param("et") Resource resource);
 }

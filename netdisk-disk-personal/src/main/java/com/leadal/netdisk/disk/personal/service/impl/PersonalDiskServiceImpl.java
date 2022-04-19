@@ -1,6 +1,5 @@
 package com.leadal.netdisk.disk.personal.service.impl;
 
-import com.leadal.netdisk.disk.model.AllFileResults;
 import com.leadal.netdisk.disk.personal.model.PersonalDisk;
 import com.leadal.netdisk.disk.personal.dao.PersonalDiskMapper;
 import com.leadal.netdisk.disk.personal.service.IPersonalDiskService;
@@ -18,8 +17,5 @@ import org.springframework.stereotype.Service;
 @Service
 public class PersonalDiskServiceImpl extends ServiceImpl<PersonalDiskMapper, PersonalDisk> implements IPersonalDiskService {
 
-    @Override
-    public AllFileResults selectPageList() {
-        return this.baseMapper.selectPageList();
-    }
+
 }

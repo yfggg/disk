@@ -62,7 +62,8 @@ public class File extends BaseModel {
     @ApiModelProperty("文件类别（0文档 1图片 2视频 3音频 4压缩文件）")
     private FileKind fileKind;
 
-    public File(String diskId, String folderName, String folderParentId, String folderParentIds, TableKind tableKind) {
+    public File(String id, String diskId, String folderName, String folderParentId, String folderParentIds, TableKind tableKind) {
+        this.id = id;
         this.diskId = diskId;
         this.folderName = folderName;
         this.folderParentId = folderParentId;

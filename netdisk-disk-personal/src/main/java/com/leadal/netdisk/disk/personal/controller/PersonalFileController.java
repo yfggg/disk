@@ -5,6 +5,7 @@ import cn.hutool.core.util.IdUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.leadal.netdisk.common.exception.InvalidExtensionException;
 import com.leadal.netdisk.common.model.Result;
+import com.leadal.netdisk.common.util.file.DateUtils;
 import com.leadal.netdisk.common.util.file.FileUploadUtils;
 import com.leadal.netdisk.disk.enums.TableKind;
 import com.leadal.netdisk.disk.model.File;
@@ -149,7 +150,7 @@ public class PersonalFileController {
      * {
      *   "fileIds": [
      *     "传输文件id集"
-     *   ],
+     *   ]
      * }
      * @return
      */

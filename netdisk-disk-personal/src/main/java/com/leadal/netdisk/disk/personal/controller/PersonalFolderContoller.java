@@ -1,10 +1,12 @@
 package com.leadal.netdisk.disk.personal.controller;
 
 import cn.hutool.core.date.DateTime;
+import cn.hutool.core.util.IdUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.leadal.netdisk.common.model.Result;
 import com.leadal.netdisk.common.util.file.DateUtils;
 import com.leadal.netdisk.disk.enums.TableKind;
+import com.leadal.netdisk.disk.mapping.FileMapping;
 import com.leadal.netdisk.disk.model.File;
 import com.leadal.netdisk.disk.service.IFileService;
 import com.leadal.netdisk.disk.view.FolderVO;
@@ -44,7 +46,7 @@ public class PersonalFolderContoller {
     /**
      * 文件夹列表
      *
-     * @param id "当前-文件夹ID"
+     * @param id "文件夹ID"
      * @return
      */
     @ApiOperation(value="文件夹列表")
@@ -66,8 +68,8 @@ public class PersonalFolderContoller {
      * 新建文件夹
      *
      * {
-     *   "id": "当前-文件夹ID",
-     *   "folderParentIds": "当前-上级文件夹ID集",
+     *   "id": "文件夹ID",
+     *   "folderParentIds": "上级文件夹ID集",
      *   "folderName": "文件夹名称"
      * }
      * @param vo
@@ -77,6 +79,7 @@ public class PersonalFolderContoller {
     @PostMapping(value = "/create")
     public Result<?> create(@RequestBody FolderVO vo) {
 
+        String id = IdUtil.simpleUUID();
         String folderParentId = vo.getId();
         String folderParentIds = vo.getFolderParentIds();
         String folderName = vo.getFolderName();
@@ -90,29 +93,16 @@ public class PersonalFolderContoller {
                 .eq("del_flag", "0");
         int same = fileService.count(wrapper);
         if(0 < same) {
-            folderName = new StringBuffer()
-                    .append(folderName)
-                    .append(DateUtils.dateTimePath())
-                    .toString();
+            folderName =
+                    new StringBuffer().append(folderName).append(DateUtils.dateTimePath()).toString();
         }
 
         // 拼接级联路径
-        StringBuffer buffer = new StringBuffer();
-        String parentIdsBuffer;
-        if(StringUtils.isBlank(folderParentIds)) {
-            parentIdsBuffer = buffer
-                    .append(folderParentId)
-                    .toString();
-        }  else {
-            parentIdsBuffer = buffer
-                    .append(folderParentIds)
-                    .append(",")
-                    .append(folderParentId)
-                    .toString();
-        }
+        String parentIdsBuffer =
+                new StringBuffer().append(folderParentIds).append(",").append(id).toString();
 
-        // 插入
         File folder = new File(
+                id,
                 DISK_ID,
                 folderName,
                 folderParentId,
@@ -128,7 +118,7 @@ public class PersonalFolderContoller {
      * 重命名文件夹
      *
      * {
-     *   "id": "当前-文件夹ID",
+     *   "id": "文件夹ID",
      *   "folderName": "文件夹名称"
      * }
      * @param vo
@@ -139,24 +129,15 @@ public class PersonalFolderContoller {
     public Result<?> rename(@RequestBody FolderVO vo) {
 
         String id = vo.getId();
-        String folderName = vo.getFolderName();
 
-        // 文件夹重名
+        File file = FileMapping.INSTANCE.toModel(vo);
         QueryWrapper<File> wrapper = new QueryWrapper<>();
         wrapper
                 .eq("id", id)
-                .eq("folder_name", folderName)
                 .eq("table_kind", TableKind.FOLDER)
                 .eq("disk_id", DISK_ID)
                 .eq("del_flag", "0");
-
-        int same = fileService.count(wrapper);
-        if(0 < same) {
-            return Result.error("操作失败: 文件夹已经存在! ");
-        }
-
-        // 更新
-        fileService.update(wrapper);
+        fileService.update(file, wrapper);
 
         return Result.OK();
     }

@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.leadal.netdisk.common.model.Result;
 import com.leadal.netdisk.disk.enums.TableKind;
 import com.leadal.netdisk.disk.model.File;
-import com.leadal.netdisk.disk.model.FilePath;
+import com.leadal.netdisk.disk.model.FileResult;
 import com.leadal.netdisk.disk.service.IFileService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -14,10 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 
 /**
@@ -77,13 +74,24 @@ public class PersonalDiskController {
         // 文件和文件夹
         QueryWrapper<File> eqWrapper = new QueryWrapper<>();
         eqWrapper
-                .eq("folder_parent_id", id)
+                .and(wrapper ->
+                    wrapper
+                        .eq("table_kind", TableKind.FOLDER)
+                        .eq("folder_parent_id", id)
+                )
+                .or(wrapper ->
+                    wrapper
+                        .eq("table_kind", TableKind.FILE)
+                        .and(wrapper1 ->
+                            wrapper1.likeLeft("folder_parent_ids", id)
+                        )
+
+                )
                 .eq("disk_id", DISK_ID)
                 .eq("del_flag", "0");
         List<File> files = fileService.list(eqWrapper);
 
         // 级联路径
-        List<File> pathTree = null;
         QueryWrapper<File> likeWrapper = new QueryWrapper<>();
         likeWrapper
                 .likeLeft("folder_parent_ids", id)
@@ -96,16 +104,17 @@ public class PersonalDiskController {
         inWrapper
                 .in("id", folderParentIds)
                 .eq("disk_id", DISK_ID)
+                .eq("table_kind", TableKind.FOLDER)
                 .eq("del_flag", "0")
                 .orderByAsc("create_time");
-        pathTree = fileService.list(inWrapper);
+        List<File> pathTree = fileService.list(inWrapper);
 
-        FilePath filePath = new FilePath(files, pathTree);
+        FileResult fileResult = new FileResult(files, pathTree);
 
         // 数量
         int total = files.size();
 
-        return Result.OK(total, filePath);
+        return Result.OK(total, fileResult);
     }
 
 

@@ -190,6 +190,7 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource> i
         String url = baseDir + "/" + dateTime + "/" + fileName;
 
         try {
+            response.setContentLengthLong(resource.getSize());
             response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);
             FileUtils.setAttachmentResponseHeader(response, realFileName);
             FileUtils.writeBytes(url, response.getOutputStream());

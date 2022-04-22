@@ -29,7 +29,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ApiModel(value = "File对象", description = "文件表")
-public class FilePath implements Serializable {
+public class FileResult implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

@@ -2,11 +2,15 @@ package com.leadal.netdisk.disk.personal.controller;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.leadal.netdisk.common.model.Result;
+import com.leadal.netdisk.disk.enums.FileKind;
 import com.leadal.netdisk.disk.enums.TableKind;
 import com.leadal.netdisk.disk.model.File;
 import com.leadal.netdisk.disk.model.FileResult;
 import com.leadal.netdisk.disk.service.IFileService;
+import com.leadal.netdisk.resource.service.IResourceService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 /**
@@ -35,6 +40,9 @@ public class PersonalDiskController {
 
     @Resource
     private IFileService fileService;
+
+    @Resource
+    private IResourceService resourceService;
 
     /**
      * 搜索 同时搜索出文件和文件夹 只从全部文件开始搜索
@@ -65,13 +73,17 @@ public class PersonalDiskController {
      * 文件列表(进入文件夹)
      *
      * @param id 文件夹ID
+     * @param pageNo   当前页
+     * @param pageSize 每页展示的数量
      * @return
      */
     @ApiOperation(value="文件列表(进入文件夹)")
     @GetMapping(value = "/query")
-    public Result<?> query(String id) {
+    public Result<?> query(String id,
+                           @RequestParam(name="pageNo", defaultValue="1") Integer pageNo,
+                           @RequestParam(name="pageSize", defaultValue="10") Integer pageSize) {
 
-        // 文件和文件夹
+        // 文件和文件夹(分页)
         QueryWrapper<File> eqWrapper = new QueryWrapper<>();
         eqWrapper
                 .and(wrapper ->
@@ -88,8 +100,14 @@ public class PersonalDiskController {
 
                 )
                 .eq("disk_id", DISK_ID)
-                .eq("del_flag", "0");
-        List<File> files = fileService.list(eqWrapper);
+                .eq("del_flag", "0")
+                .orderByAsc("create_time");
+        Page<File> page = new Page<>(pageNo, pageSize);
+        IPage<File> pageFiles = fileService.page(page, eqWrapper);
+
+        // 加入文件预览地址
+        List<File> files = resourceService.addUrl(pageFiles.getRecords());
+        pageFiles.setRecords(files);
 
         // 级联路径
         QueryWrapper<File> likeWrapper = new QueryWrapper<>();
@@ -109,13 +127,64 @@ public class PersonalDiskController {
                 .orderByAsc("create_time");
         List<File> pathTree = fileService.list(inWrapper);
 
-        FileResult fileResult = new FileResult(files, pathTree);
+        FileResult fileResult = new FileResult(pageFiles, pathTree);
 
-        // 数量
-        int total = files.size();
-
-        return Result.OK(total, fileResult);
+        return Result.OK(fileResult);
     }
+
+
+    /**
+     * 各类型列表
+     *
+     * @param code 例如输入"0"表示查询文档列表（0文档 1图片 2视频 3音频 4压缩文件）
+     * @param pageNo   当前页
+     * @param pageSize 每页展示的数量
+     * @return
+     */
+    @ApiOperation(value="各类型列表")
+    @GetMapping(value = "/kindQuery")
+    public Result<?> documentQuery(String code,
+                           @RequestParam(name="pageNo", defaultValue="1") Integer pageNo,
+                           @RequestParam(name="pageSize", defaultValue="10") Integer pageSize) {
+
+        QueryWrapper<File> eqWrapper = new QueryWrapper<>();
+
+        FileKind kind = null;
+        switch (code) {
+            case "0":
+                kind = FileKind.DOCUMENT;
+                break;
+            case "1":
+                kind = FileKind.IMAGE;
+                break;
+            case "2":
+                kind = FileKind.VIDEO;
+                break;
+            case "3":
+                kind = FileKind.AUDIO;
+                break;
+            case "4":
+                kind = FileKind.COMPRESSION;
+                break;
+        }
+
+        eqWrapper
+                .eq("table_kind", TableKind.FILE)
+                .eq("file_kind", kind)
+                .eq("disk_id", DISK_ID)
+                .eq("del_flag", "0")
+                .orderByAsc("create_time");
+        Page<File> page = new Page<>(pageNo, pageSize);
+        IPage<File> pageFiles = fileService.page(page, eqWrapper);
+
+        // 加入文件预览地址
+        List<File> files = resourceService.addUrl(pageFiles.getRecords());
+        pageFiles.setRecords(files);
+
+        return Result.OK(pageFiles);
+    }
+
+
 
 
 }

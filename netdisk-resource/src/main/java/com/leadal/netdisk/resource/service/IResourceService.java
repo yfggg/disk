@@ -1,6 +1,7 @@
 package com.leadal.netdisk.resource.service;
 
 import com.leadal.netdisk.common.exception.InvalidExtensionException;
+import com.leadal.netdisk.disk.model.File;
 import com.leadal.netdisk.resource.model.Resource;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,4 +24,8 @@ public interface IResourceService extends IService<Resource> {
             throws IOException, InvalidExtensionException;
 
     void download(String resouseId, String realFileName, HttpServletResponse response);
+
+    List<File> addUrl(List<File> files);
+
+
 }

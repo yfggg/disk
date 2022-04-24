@@ -15,6 +15,7 @@ import com.leadal.netdisk.resource.model.Resource;
 import com.leadal.netdisk.resource.dao.ResourceMapper;
 import com.leadal.netdisk.resource.service.IResourceService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 /**
@@ -172,11 +174,33 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource> i
     @Override
     public void download(String resouseId, String realFileName, HttpServletResponse response) {
 
+        Resource resource = rSelectOne(resouseId);
+
+        String url = getURL(resource);
+
+        try {
+            response.setContentLengthLong(resource.getSize());
+            response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);
+            FileUtils.setAttachmentResponseHeader(response, realFileName);
+            FileUtils.writeBytes(url, response.getOutputStream());
+        }
+        catch (Exception e) {
+            log.error("下载文件失败", e);
+        }
+    }
+
+    private Resource rSelectOne(String resouseId) {
+
         QueryWrapper<Resource> resourceQueryWrapper = new QueryWrapper<>();
         resourceQueryWrapper
                 .eq("id", resouseId)
                 .eq("del_flag", "0");
         Resource resource = this.baseMapper.selectOne(resourceQueryWrapper);
+
+        return resource;
+    }
+
+    private String getURL(Resource resource) {
 
         String createTime = DateUtil.formatDateTime(resource.getCreateTime());
         String date = createTime.substring(0, createTime.lastIndexOf(" "));
@@ -189,16 +213,27 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource> i
         String fileName = resource.getId() + "." + resource.getType();
         String url = baseDir + "/" + dateTime + "/" + fileName;
 
-        try {
-            response.setContentLengthLong(resource.getSize());
-            response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);
-            FileUtils.setAttachmentResponseHeader(response, realFileName);
-            FileUtils.writeBytes(url, response.getOutputStream());
-        }
-        catch (Exception e) {
-            log.error("下载文件失败", e);
-        }
+        return url;
     }
+
+    @Override
+    public List<File> addUrl(List<File> files) {
+
+        // 加入文件预览地址
+        return files.stream()
+                .map(file -> {
+                    if(TableKind.FILE.equals(file.getTableKind())) {
+                        String resourceId = file.getResourceId();
+                        Resource resource = rSelectOne(resourceId);
+                        String url = getURL(resource);
+                        file.setUrl(url);
+                    }
+                    return file;
+                }).collect(Collectors.toList());
+    }
+
+
+
 
 
 }

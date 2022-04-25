@@ -17,4 +17,5 @@ import java.util.List;
 public interface IFileService extends IService<File> {
 
     List<File> moveAndCopyById(String diskId, FileVO vo, boolean needId);
+
 }

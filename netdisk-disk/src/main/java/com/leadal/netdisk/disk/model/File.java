@@ -36,6 +36,9 @@ public class File extends BaseModel {
     @ApiModelProperty("网盘空间ID")
     private String diskId;
 
+    @ApiModelProperty("拥有者ID")
+    private String ownerId;
+
     @ApiModelProperty("数据表类别（0文件夹 1文件）")
     private TableKind tableKind;
 

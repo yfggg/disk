@@ -5,10 +5,10 @@ import cn.hutool.core.util.IdUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.leadal.netdisk.common.exception.InvalidExtensionException;
 import com.leadal.netdisk.common.model.Result;
-import com.leadal.netdisk.common.util.file.DateUtils;
 import com.leadal.netdisk.common.util.file.FileUploadUtils;
 import com.leadal.netdisk.disk.enums.TableKind;
 import com.leadal.netdisk.disk.model.File;
+import com.leadal.netdisk.disk.personal.service.IPersonalDiskService;
 import com.leadal.netdisk.disk.service.IFileService;
 import com.leadal.netdisk.disk.view.FileVO;
 import com.leadal.netdisk.resource.service.IResourceService;
@@ -60,8 +60,8 @@ public class PersonalFileController {
     @PutMapping(value = "/move")
     public Result<?> move(@RequestBody FileVO vo) {
 
-        List<File> finas = fileService.moveAndCopyById(DISK_ID, vo, false);
-        boolean result = fileService.updateBatchById(finas);
+        List<File> files = fileService.moveAndCopyById(DISK_ID, vo, false);
+        boolean result = fileService.updateBatchById(files);
 
         if(!result) {
             return Result.error("移动文件失败！");
@@ -85,8 +85,8 @@ public class PersonalFileController {
     @PostMapping(value = "/copy")
     public Result<?> copy(@RequestBody FileVO vo) {
 
-        List<File> finas = fileService.moveAndCopyById(DISK_ID, vo, true);
-        boolean result = fileService.saveBatch(finas);
+        List<File> files = fileService.moveAndCopyById(DISK_ID, vo, true);
+        boolean result = fileService.saveBatch(files);
 
         if(!result) {
             return Result.error("复制文件失败！");

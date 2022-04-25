@@ -2,6 +2,7 @@ package com.leadal.netdisk.disk.personal.service;
 
 import com.leadal.netdisk.disk.personal.model.PersonalDisk;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.leadal.netdisk.disk.view.FileVO;
 
 /**
  * <p>
@@ -12,5 +13,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2022-04-07
  */
 public interface IPersonalDiskService extends IService<PersonalDisk> {
+
+    boolean computationalSpace(String diskId, Long sum);
 
 }

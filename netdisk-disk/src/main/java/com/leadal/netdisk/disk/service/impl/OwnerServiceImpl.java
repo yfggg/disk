@@ -1,7 +1,10 @@
 package com.leadal.netdisk.disk.service.impl;
 
 import cn.hutool.json.JSONObject;
-import com.leadal.netdisk.disk.service.IUserService;
+import com.leadal.netdisk.disk.model.Owner;
+import com.leadal.netdisk.disk.dao.OwnerMapper;
+import com.leadal.netdisk.disk.service.IOwnerService;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -16,8 +19,16 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * <p>
+ * 拥有者表 服务实现类
+ * </p>
+ *
+ * @author yf
+ * @since 2022-04-25
+ */
 @Service
-public class UserServiceImpl implements IUserService {
+public class OwnerServiceImpl extends ServiceImpl<OwnerMapper, Owner> implements IOwnerService {
 
     @Value("${csa.user.cas.url}")
     private String url;
@@ -51,5 +62,8 @@ public class UserServiceImpl implements IUserService {
         }
         return null;
     }
+
+
+
 
 }

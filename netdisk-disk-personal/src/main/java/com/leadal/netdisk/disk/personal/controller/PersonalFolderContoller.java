@@ -9,7 +9,6 @@ import com.leadal.netdisk.disk.enums.TableKind;
 import com.leadal.netdisk.disk.mapping.FileMapping;
 import com.leadal.netdisk.disk.model.File;
 import com.leadal.netdisk.disk.service.IFileService;
-import com.leadal.netdisk.disk.service.IUserService;
 import com.leadal.netdisk.disk.view.FolderVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -40,9 +39,6 @@ import java.util.Optional;
 public class PersonalFolderContoller {
 
     private static final String DISK_ID = "1";
-
-    @Resource
-    private IUserService userService;
 
     @Resource
     private IFileService fileService;

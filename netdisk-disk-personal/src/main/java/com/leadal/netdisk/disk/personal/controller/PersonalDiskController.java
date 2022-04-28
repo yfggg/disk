@@ -4,6 +4,8 @@ package com.leadal.netdisk.disk.personal.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.leadal.doconvert.client.Doconvert;
+import com.leadal.doconvert.client.callback.ConvertorCallback;
 import com.leadal.netdisk.common.model.Result;
 import com.leadal.netdisk.disk.enums.FileKind;
 import com.leadal.netdisk.disk.enums.TableKind;
@@ -51,7 +53,7 @@ public class PersonalDiskController {
      */
     @ApiOperation(value="关键字搜索")
     @GetMapping(value = "/queryKeyword")
-    public Result<?> keywordQuery( String keyword) {
+    public Result<?> keywordQuery(String keyword) {
 
         QueryWrapper<File> fWrapper = new QueryWrapper<>();
         fWrapper
@@ -96,7 +98,6 @@ public class PersonalDiskController {
                         .and(wrapper1 ->
                             wrapper1.likeLeft("folder_parent_ids", id)
                         )
-
                 )
                 .eq("disk_id", DISK_ID)
                 .eq("del_flag", "0")
@@ -181,6 +182,20 @@ public class PersonalDiskController {
         pageFiles.setRecords(files);
 
         return Result.OK(pageFiles);
+    }
+
+    public static void main(String[] args) {
+        //源文件路径及名称
+        String src = "D:\\tmp\\test2.jpg";
+        //目标文件路径及名称
+        String desc = "D:\\tmp\\test2998.pdf";
+        Doconvert.create().setUrl("11.1.0.99:8086").setSrc(src).setDesc(desc).execute(new ConvertorCallback() {
+            @Override
+            public void execute(java.io.File file) {
+                //file为转换后的文件
+                System.out.println("转换完成");
+            }
+        });
     }
 
 

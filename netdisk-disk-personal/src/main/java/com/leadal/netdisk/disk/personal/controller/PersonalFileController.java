@@ -8,7 +8,6 @@ import com.leadal.netdisk.common.model.Result;
 import com.leadal.netdisk.common.util.file.FileUploadUtils;
 import com.leadal.netdisk.disk.enums.TableKind;
 import com.leadal.netdisk.disk.model.File;
-import com.leadal.netdisk.disk.personal.service.IPersonalDiskService;
 import com.leadal.netdisk.disk.service.IFileService;
 import com.leadal.netdisk.disk.view.FileVO;
 import com.leadal.netdisk.resource.service.IResourceService;
@@ -112,6 +111,7 @@ public class PersonalFileController {
                 String resouseId = IdUtil.simpleUUID();
                 boolean result = resourceService.tSave(DISK_ID, mFile, folderIds, resouseId);
                 if(result) {
+                    // TODO 服务器资源变动 修改网盘大小
                     FileUploadUtils.upload(mFile, resouseId);
                 }
             }
@@ -166,6 +166,8 @@ public class PersonalFileController {
                 .eq("disk_id", DISK_ID)
                 .eq("table_kind", TableKind.FILE)
                 .eq("del_flag", "0");
+
+        // TODO 文件丢入回收站 清空回收站的时候需要注意文件表中是否还有相同资源的数据
         File file = new File();
         file.setDelFlag("1");
 

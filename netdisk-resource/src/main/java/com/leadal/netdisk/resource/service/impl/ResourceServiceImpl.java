@@ -15,7 +15,6 @@ import com.leadal.netdisk.resource.model.Resource;
 import com.leadal.netdisk.resource.dao.ResourceMapper;
 import com.leadal.netdisk.resource.service.IResourceService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -60,12 +59,12 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource> i
         // 文件是否存在于服务器？
         QueryWrapper<Resource> rWrapper = new QueryWrapper<>();
         rWrapper.eq("md5", md5);
-        int rCount = this.baseMapper.selectCount(rWrapper);
+        int rCount = count(rWrapper);
 
         // 不存在？ 插入 并进行上传
         if(0 >= rCount) {
             Resource resource = new Resource(resouseId, md5, fiSize, fiType);
-            this.baseMapper.insert(resource);
+            save(resource);
 
             // 多个文件夹
             List<File> files = getFoldersById(folderIds);
@@ -84,7 +83,7 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource> i
 
                 QueryWrapper<Resource> wrapper = new QueryWrapper<>();
                 wrapper.eq("md5", md5);
-                String rId = this.baseMapper.selectOne(wrapper).getId();
+                String rId = getOne(wrapper).getId();
 
                 // 多个文件夹
                 List<File> files = getFoldersById(folderIds);
@@ -176,7 +175,8 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource> i
 
         Resource resource = rSelectOne(resouseId);
 
-        String url = getURL(resource);
+        String baseDir = FileUtils.getDefaultBaseDir();
+        String url = baseDir + "/" + getDateURL(resource);
 
         try {
             response.setContentLengthLong(resource.getSize());
@@ -195,12 +195,12 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource> i
         resourceQueryWrapper
                 .eq("id", resouseId)
                 .eq("del_flag", "0");
-        Resource resource = this.baseMapper.selectOne(resourceQueryWrapper);
+        Resource resource = getOne(resourceQueryWrapper);
 
         return resource;
     }
 
-    private String getURL(Resource resource) {
+    private String getDateURL(Resource resource) {
 
         String createTime = DateUtil.formatDateTime(resource.getCreateTime());
         String date = createTime.substring(0, createTime.lastIndexOf(" "));
@@ -208,10 +208,9 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource> i
         String mDay = date.substring(5);
         String time = createTime.substring(createTime.lastIndexOf(" ")+1);
         String hour = time.substring(0, 2);
-        String baseDir = FileUtils.getDefaultBaseDir();
         String dateTime = year + "/" + mDay + "/" + hour;
         String fileName = resource.getId() + "." + resource.getType();
-        String url = baseDir + "/" + dateTime + "/" + fileName;
+        String url = dateTime + "/" + fileName;
 
         return url;
     }
@@ -225,7 +224,7 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource> i
                     if(TableKind.FILE.equals(file.getTableKind())) {
                         String resourceId = file.getResourceId();
                         Resource resource = rSelectOne(resourceId);
-                        String url = getURL(resource);
+                        String url = "/resource/" + getDateURL(resource);
                         file.setUrl(url);
                     }
                     return file;

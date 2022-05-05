@@ -95,9 +95,7 @@ public class PersonalDiskController {
                 .or(wrapper ->
                     wrapper
                         .eq("table_kind", TableKind.FILE)
-                        .and(wrapper1 ->
-                            wrapper1.likeLeft("folder_parent_ids", id)
-                        )
+                        .likeLeft("folder_parent_ids", id)
                 )
                 .eq("disk_id", DISK_ID)
                 .eq("del_flag", "0")
@@ -132,50 +130,22 @@ public class PersonalDiskController {
         return Result.OK(fileResult);
     }
 
-
-    /**
-     * 各类型列表
-     *
-     * @param code 例如输入"0"表示查询文档列表（0文档 1图片 2视频 3音频 4压缩文件）
-     * @param pageNo   当前页
-     * @param pageSize 每页展示的数量
-     * @return
-     */
-    @ApiOperation(value="各类型列表")
-    @GetMapping(value = "/kindQuery")
+    @ApiOperation(value="文档列表")
+    @GetMapping(value = "/documentQuery")
     public Result<?> documentQuery(String code,
                            @RequestParam(name="pageNo", defaultValue="1") Integer pageNo,
                            @RequestParam(name="pageSize", defaultValue="10") Integer pageSize) {
 
-        QueryWrapper<File> eqWrapper = new QueryWrapper<>();
+        QueryWrapper<File> wrapper = new QueryWrapper<>();
 
-        FileKind kind = null;
-        switch (code) {
-            case "0":
-                kind = FileKind.DOCUMENT;
-                break;
-            case "1":
-                kind = FileKind.IMAGE;
-                break;
-            case "2":
-                kind = FileKind.VIDEO;
-                break;
-            case "3":
-                kind = FileKind.AUDIO;
-                break;
-            case "4":
-                kind = FileKind.COMPRESSION;
-                break;
-        }
-
-        eqWrapper
+        wrapper
                 .eq("table_kind", TableKind.FILE)
-                .eq("file_kind", kind)
+                .eq("file_kind", FileKind.DOCUMENT)
                 .eq("disk_id", DISK_ID)
                 .eq("del_flag", "0")
                 .orderByAsc("create_time");
         Page<File> page = new Page<>(pageNo, pageSize);
-        IPage<File> pageFiles = fileService.page(page, eqWrapper);
+        IPage<File> pageFiles = fileService.page(page, wrapper);
 
         // 加入文件预览地址
         List<File> files = resourceService.addUrl(pageFiles.getRecords());
@@ -184,19 +154,70 @@ public class PersonalDiskController {
         return Result.OK(pageFiles);
     }
 
-    public static void main(String[] args) {
-        //源文件路径及名称
-        String src = "D:\\tmp\\test2.jpg";
-        //目标文件路径及名称
-        String desc = "D:\\tmp\\test2998.pdf";
-        Doconvert.create().setUrl("11.1.0.99:8086").setSrc(src).setDesc(desc).execute(new ConvertorCallback() {
-            @Override
-            public void execute(java.io.File file) {
-                //file为转换后的文件
-                System.out.println("转换完成");
-            }
-        });
-    }
+//    /**
+//     * 各类型列表
+//     *
+//     * @param code 例如输入"0"表示查询文档列表（0文档 1图片 2视频 3音频 4压缩文件）
+//     * @param pageNo   当前页
+//     * @param pageSize 每页展示的数量
+//     * @return
+//     */
+//    @ApiOperation(value="各类型列表")
+//    @GetMapping(value = "/kindQuery")
+//    public Result<?> documentQuery(String code,
+//                           @RequestParam(name="pageNo", defaultValue="1") Integer pageNo,
+//                           @RequestParam(name="pageSize", defaultValue="10") Integer pageSize) {
+//
+//        QueryWrapper<File> eqWrapper = new QueryWrapper<>();
+//
+//        FileKind kind = null;
+//        switch (code) {
+//            case "0":
+//                kind = FileKind.DOCUMENT;
+//                break;
+//            case "1":
+//                kind = FileKind.IMAGE;
+//                break;
+//            case "2":
+//                kind = FileKind.VIDEO;
+//                break;
+//            case "3":
+//                kind = FileKind.AUDIO;
+//                break;
+//            case "4":
+//                kind = FileKind.COMPRESSION;
+//                break;
+//        }
+//
+//        eqWrapper
+//                .eq("table_kind", TableKind.FILE)
+//                .eq("file_kind", kind)
+//                .eq("disk_id", DISK_ID)
+//                .eq("del_flag", "0")
+//                .orderByAsc("create_time");
+//        Page<File> page = new Page<>(pageNo, pageSize);
+//        IPage<File> pageFiles = fileService.page(page, eqWrapper);
+//
+//        // 加入文件预览地址
+//        List<File> files = resourceService.addUrl(pageFiles.getRecords());
+//        pageFiles.setRecords(files);
+//
+//        return Result.OK(pageFiles);
+//    }
+
+//    public static void main(String[] args) {
+//        //源文件路径及名称
+//        String src = "D:\\tmp\\test2.jpg";
+//        //目标文件路径及名称
+//        String desc = "D:\\tmp\\test2998.pdf";
+//        Doconvert.create().setUrl("11.1.0.99:8086").setSrc(src).setDesc(desc).execute(new ConvertorCallback() {
+//            @Override
+//            public void execute(java.io.File file) {
+//                //file为转换后的文件
+//                System.out.println("转换完成");
+//            }
+//        });
+//    }
 
 
 

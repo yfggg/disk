@@ -96,14 +96,7 @@ public class PersonalFolderContoller {
         String parentIdsBuffer =
                 new StringBuffer().append(folderParentIds).append(",").append(id).toString();
 
-        File folder = new File(
-                id,
-                DISK_ID,
-                folderName,
-                folderParentId,
-                parentIdsBuffer,
-                TableKind.FOLDER
-        );
+        File folder = new File(id, DISK_ID, folderName, folderParentId, parentIdsBuffer, TableKind.FOLDER);
         fileService.save(folder);
 
         return Result.OK();

@@ -85,4 +85,18 @@ CREATE TABLE `ndk_resource` (
 PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='服务器资源表';
 
-
+DROP TABLE IF EXISTS ndk_recyle;
+CREATE TABLE `ndk_recyle` (
+`id` varchar(32) NOT NULL COMMENT 'ID',
+`disk_id` varchar(32) NOT NULL COMMENT '网盘空间ID',
+`file_id` varchar(32) DEFAULT NULL COMMENT '文件ID',
+`create_id` varchar(32) DEFAULT NULL COMMENT '创建者ID',
+`status` char(1) DEFAULT '0' COMMENT '状态（0正常 1停用）',
+`del_flag` char(1) DEFAULT '0' COMMENT '删除标志（0代表存在 1代表删除）',
+`create_by` varchar(64) DEFAULT '' COMMENT '创建者',
+`create_time` datetime DEFAULT NULL COMMENT '创建时间',
+`update_by` varchar(64) DEFAULT '' COMMENT '更新者',
+`update_time` datetime DEFAULT NULL COMMENT '更新时间',
+`remark` varchar(500) DEFAULT NULL COMMENT '备注',
+PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='回收站表';

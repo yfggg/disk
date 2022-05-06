@@ -1,6 +1,5 @@
 package com.leadal.netdisk.common.config.filter;
 
-import com.leadal.cas.core.filter.CasFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

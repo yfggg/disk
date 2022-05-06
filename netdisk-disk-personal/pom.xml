@@ -31,6 +31,12 @@
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.leadal.netdisk</groupId>
+            <artifactId>netdisk-recyle</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
     </dependencies>
 
 </project>

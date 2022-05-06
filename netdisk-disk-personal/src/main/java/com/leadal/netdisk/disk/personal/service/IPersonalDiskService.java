@@ -14,6 +14,8 @@ import com.leadal.netdisk.disk.view.FileVO;
  */
 public interface IPersonalDiskService extends IService<PersonalDisk> {
 
-    boolean computationalSpace(String diskId, Long sum);
+    boolean plusSpace(String diskId, Long sum);
+
+    boolean minusSpace(String diskId, Long sum);
 
 }

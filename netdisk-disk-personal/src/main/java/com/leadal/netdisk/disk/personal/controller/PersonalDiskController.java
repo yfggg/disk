@@ -4,8 +4,8 @@ package com.leadal.netdisk.disk.personal.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.leadal.doconvert.client.Doconvert;
-import com.leadal.doconvert.client.callback.ConvertorCallback;
+//import com.leadal.doconvert.client.Doconvert;
+//import com.leadal.doconvert.client.callback.ConvertorCallback;
 import com.leadal.netdisk.common.model.Result;
 import com.leadal.netdisk.disk.enums.FileKind;
 import com.leadal.netdisk.disk.enums.TableKind;
@@ -130,29 +130,29 @@ public class PersonalDiskController {
         return Result.OK(fileResult);
     }
 
-    @ApiOperation(value="文档列表")
-    @GetMapping(value = "/documentQuery")
-    public Result<?> documentQuery(String code,
-                           @RequestParam(name="pageNo", defaultValue="1") Integer pageNo,
-                           @RequestParam(name="pageSize", defaultValue="10") Integer pageSize) {
-
-        QueryWrapper<File> wrapper = new QueryWrapper<>();
-
-        wrapper
-                .eq("table_kind", TableKind.FILE)
-                .eq("file_kind", FileKind.DOCUMENT)
-                .eq("disk_id", DISK_ID)
-                .eq("del_flag", "0")
-                .orderByAsc("create_time");
-        Page<File> page = new Page<>(pageNo, pageSize);
-        IPage<File> pageFiles = fileService.page(page, wrapper);
-
-        // 加入文件预览地址
-        List<File> files = resourceService.addUrl(pageFiles.getRecords());
-        pageFiles.setRecords(files);
-
-        return Result.OK(pageFiles);
-    }
+//    @ApiOperation(value="文档列表")
+//    @GetMapping(value = "/documentQuery")
+//    public Result<?> documentQuery(String code,
+//                           @RequestParam(name="pageNo", defaultValue="1") Integer pageNo,
+//                           @RequestParam(name="pageSize", defaultValue="10") Integer pageSize) {
+//
+//        QueryWrapper<File> wrapper = new QueryWrapper<>();
+//
+//        wrapper
+//                .eq("table_kind", TableKind.FILE)
+//                .eq("file_kind", FileKind.DOCUMENT)
+//                .eq("disk_id", DISK_ID)
+//                .eq("del_flag", "0")
+//                .orderByAsc("create_time");
+//        Page<File> page = new Page<>(pageNo, pageSize);
+//        IPage<File> pageFiles = fileService.page(page, wrapper);
+//
+//        // 加入文件预览地址
+//        List<File> files = resourceService.addUrl(pageFiles.getRecords());
+//        pageFiles.setRecords(files);
+//
+//        return Result.OK(pageFiles);
+//    }
 
 //    /**
 //     * 各类型列表

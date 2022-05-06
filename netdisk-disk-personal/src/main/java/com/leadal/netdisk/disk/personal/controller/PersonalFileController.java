@@ -8,6 +8,7 @@ import com.leadal.netdisk.common.model.Result;
 import com.leadal.netdisk.common.util.file.FileUploadUtils;
 import com.leadal.netdisk.disk.enums.TableKind;
 import com.leadal.netdisk.disk.model.File;
+import com.leadal.netdisk.disk.personal.service.IPersonalDiskService;
 import com.leadal.netdisk.disk.service.IFileService;
 import com.leadal.netdisk.disk.view.FileVO;
 import com.leadal.netdisk.resource.service.IResourceService;
@@ -43,6 +44,10 @@ public class PersonalFileController {
 
     @Resource
     private IResourceService resourceService;
+
+    @Resource
+    private IPersonalDiskService personalDiskService;
+
 
     /**
      * 移动文件
@@ -111,8 +116,9 @@ public class PersonalFileController {
                 String resouseId = IdUtil.simpleUUID();
                 boolean result = resourceService.tSave(DISK_ID, mFile, folderIds, resouseId);
                 if(result) {
-                    // TODO 服务器资源变动 修改网盘大小
                     FileUploadUtils.upload(mFile, resouseId);
+                    // 服务器资源变动 修改网盘大小
+                    personalDiskService.plusSpace(DISK_ID, mFile.getSize());
                 }
             }
 
@@ -154,6 +160,7 @@ public class PersonalFileController {
      * }
      * @return
      */
+    @Deprecated
     @ApiOperation(value="删除文件")
     @DeleteMapping(value = "/delete")
     public Result<?> delete(@RequestBody FileVO vo) {

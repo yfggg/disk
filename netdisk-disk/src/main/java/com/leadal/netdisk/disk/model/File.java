@@ -79,6 +79,10 @@ public class File extends BaseModel {
         this.tableKind = tableKind;
     }
 
+    public File(String delFlag) {
+        setDelFlag(delFlag);
+    }
+
     public String getDelFlag() {
         return this.delFlag;
     }

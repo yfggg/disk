@@ -51,6 +51,19 @@ public class Resource extends BaseModel {
         this.size = size;
     }
 
+    public Resource(String id, String delFlag) {
+        this.id = id;
+        setDelFlag(delFlag);
+    }
+
+    public String getDelFlag() {
+        return this.delFlag;
+    }
+
+    public void setDelFlag(String delFlag) {
+        this.delFlag = delFlag;
+    }
+
     public Date getCreateTime(){
         return this.createTime;
     }

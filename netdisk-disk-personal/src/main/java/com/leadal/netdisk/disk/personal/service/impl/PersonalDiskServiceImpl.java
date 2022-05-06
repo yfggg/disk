@@ -24,9 +24,8 @@ import java.util.List;
 @Service
 public class PersonalDiskServiceImpl extends ServiceImpl<PersonalDiskMapper, PersonalDisk> implements IPersonalDiskService {
 
-
     @Override
-    public boolean computationalSpace(String diskId, Long sum) {
+    public boolean plusSpace(String diskId, Long sum) {
         PersonalDisk personalDisk = getById(diskId);
         Long all = personalDisk.getAllocateSpace();
         Long used = personalDisk.getUsedSpace();
@@ -44,7 +43,24 @@ public class PersonalDiskServiceImpl extends ServiceImpl<PersonalDiskMapper, Per
         return false;
     }
 
+    @Override
+    public boolean minusSpace(String diskId, Long sum) {
+        PersonalDisk personalDisk = getById(diskId);
+        Long all = personalDisk.getAllocateSpace();
+        Long used = personalDisk.getUsedSpace();
 
+        used = used - sum;
+        personalDisk.setUsedSpace(used);
+        personalDisk.setRemaieSpace(all - used);
+
+        boolean result = updateById(personalDisk);
+
+        if(result) {
+            return true;
+        }
+
+        return false;
+    }
 
 
 }

@@ -23,6 +23,9 @@ public class CodeGeneratorUtil {
     private static final String RESOURCE_MODULE_PATH = "D:\\System\\work\\leadal-netdisk\\netdisk-resource";
     private static final String RESOURCE_PACKAGE = "com.leadal.netdisk.resource";
 
+    private static final String RECYLE_MODULE_PATH = "D:\\System\\work\\leadal-netdisk\\netdisk-recyle";
+    private static final String RECYLE_PACKAGE = "com.leadal.netdisk.recyle";
+
     private static String moduleType;
 
     public static void main(String[] args) {
@@ -45,6 +48,10 @@ public class CodeGeneratorUtil {
                             builder.outputDir(RESOURCE_MODULE_PATH + "/src/main/java");
                             moduleType = "netdisk-resource";
                             break;
+                        case "netdisk-recyle" :
+                            builder.outputDir(RECYLE_MODULE_PATH + "/src/main/java");
+                            moduleType = "netdisk-recyle";
+                            break;
                     }
                 })
                 .packageConfig(builder -> {
@@ -57,6 +64,9 @@ public class CodeGeneratorUtil {
                             break;
                         case "netdisk-resource" :
                             builder.parent(RESOURCE_PACKAGE).entity("model").mapper("dao").xml("dao.xml");
+                            break;
+                        case "netdisk-recyle" :
+                            builder.parent(RECYLE_PACKAGE).entity("model").mapper("dao").xml("dao.xml");
                             break;
                     }
                 })

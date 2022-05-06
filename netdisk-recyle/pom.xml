@@ -11,5 +11,20 @@
 
     <artifactId>netdisk-recyle</artifactId>
 
+    <dependencies>
+
+        <dependency>
+            <groupId>com.leadal.netdisk</groupId>
+            <artifactId>netdisk-disk</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.leadal.netdisk</groupId>
+            <artifactId>netdisk-resource</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
+    </dependencies>
 
 </project>
